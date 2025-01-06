@@ -1,2 +1,7 @@
+# Ignore everything in build and bin directories
 build/*
 bin/*
+
+# Allow .keep files
+!build/.keep
+!bin/.keep
