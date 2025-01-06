@@ -6,7 +6,7 @@ LDFLAGS = -lSDL2 -lGL -ldl
 # Source files and object files
 SRC = src/main.cpp src/glad.c
 OBJ = bin/main.o bin/glad.o
-EXEC = build/FirstProject
+EXEC = build/Window
 
 # Default target to build the application
 all: create_bin_dir $(EXEC)
