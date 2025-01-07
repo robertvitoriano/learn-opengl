@@ -112,34 +112,12 @@ void handleWindowResize(int width, int height)
   glViewport(0, 0, width, height);
 }
 
-unsigned int getVertexShader()
-{
-  unsigned int vertexShader;
-  vertexShader = glCreateShader(GL_VERTEX_SHADER);
-
-  glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-  glCompileShader(vertexShader);
-
-  int success;
-  char infoLog[512];
-  glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-
-  if (!success)
-  {
-    glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-    std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n"
-              << infoLog << std::endl;
-  }
-
-  return vertexShader;
-}
-
-unsigned int getFragmentShader()
+unsigned int compileShader(unsigned int shaderType, const char *shaderSource)
 {
   unsigned int fragmentShader;
 
-  fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-  glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+  fragmentShader = glCreateShader(shaderType);
+  glShaderSource(fragmentShader, 1, &shaderSource, NULL);
   glCompileShader(fragmentShader);
   int success;
   char infoLog[512];
@@ -149,7 +127,7 @@ unsigned int getFragmentShader()
   if (!success)
   {
     glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-    std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n"
+    std::cout << "ERROR::SHADER::COMPILATION_FAILED\n"
               << infoLog << std::endl;
   }
   return fragmentShader;
@@ -180,8 +158,8 @@ unsigned int getShaderProgram(unsigned int vertexShader, unsigned int fragmentSh
 
 void update()
 {
-  unsigned int vertexShader = getVertexShader();
-  unsigned int fragmentShader = getFragmentShader();
+  unsigned int vertexShader = compileShader(GL_VERTEX_SHADER, vertexShaderSource);
+  unsigned int fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
 
   unsigned int shaderProgram = getShaderProgram(vertexShader, fragmentShader);
 
@@ -195,7 +173,6 @@ void update()
       -0.5f, 0.5f, 0.0f   // top left
   };
   unsigned int indices[] = {
-      // note that we start from 0!
       0, 1, 3, // first triangle
       1, 2, 3  // second triangle
   };
