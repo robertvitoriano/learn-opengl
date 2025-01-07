@@ -3,6 +3,21 @@
 GLfloat colorR = 0.0f;
 GLfloat colorG = 0.0f;
 GLfloat colorB = 0.0f;
+
+const char *fragmentShaderSource = "#version 330 core\n"
+                                   "out vec4 FragColor;\n"
+                                   "void main()\n"
+                                   "{\n"
+                                   "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);;\n"
+                                   "}\0";
+
+const char *vertexShaderSource = "#version 330 core\n"
+                                 "layout (location = 0) in vec3 aPos;\n"
+                                 "void main()\n"
+                                 "{\n"
+                                 "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+                                 "}\0";
+
 int main(int argc, char *argv[])
 {
   int FPS = 60;
@@ -70,13 +85,11 @@ int main(int argc, char *argv[])
         int height = event.window.data2;
         handleWindowResize(width, height);
       }
+      glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+      glClear(GL_COLOR_BUFFER_BIT);
 
-      proccessInput(event);
       update();
     }
-
-    glClearColor(colorR, colorG, colorB, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
 
     SDL_GL_SwapWindow(window);
 
@@ -99,43 +112,8 @@ void handleWindowResize(int width, int height)
   glViewport(0, 0, width, height);
 }
 
-void proccessInput(SDL_Event event)
+unsigned int getVertexShader()
 {
-
-  std::random_device rd;
-  std::mt19937 gen(rd());
-  std::uniform_real_distribution<float> dis(0.0f, 1.0f);
-
-  if (event.type == SDL_KEYDOWN)
-  {
-    if (event.key.keysym.sym == SDLK_SPACE)
-    {
-      colorR = dis(gen);
-      colorG = dis(gen);
-      colorB = dis(gen);
-    }
-  }
-}
-
-void update()
-{
-  float triangleVertices[] = {
-      -0.5f, -0.5f, 0.0f,
-      0.5f, -0.5f, 0.0f,
-      0.0f, 0.5f, 0.0f};
-  unsigned int vertexBufferObject;
-  glGenBuffers(1, &vertexBufferObject);
-
-  glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
-
-  glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertices), triangleVertices, GL_STATIC_DRAW);
-
-  const char *vertexShaderSource = "#version 330 core\n"
-                                   "layout (location = 0) in vec3 aPos;\n"
-                                   "void main()\n"
-                                   "{\n"
-                                   "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-                                   "}\0";
   unsigned int vertexShader;
   vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
@@ -153,18 +131,18 @@ void update()
               << infoLog << std::endl;
   }
 
-  const char *fragmentShaderSource = "#version 330 core\n"
-                                     "out vec4 FragColor;\n"
-                                     "void main()\n"
-                                     "{\n"
-                                     "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);;\n"
-                                     "}\0";
+  return vertexShader;
+}
 
+unsigned int getFragmentShader()
+{
   unsigned int fragmentShader;
 
   fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
   glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
   glCompileShader(fragmentShader);
+  int success;
+  char infoLog[512];
 
   glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
 
@@ -174,13 +152,19 @@ void update()
     std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n"
               << infoLog << std::endl;
   }
+  return fragmentShader;
+}
 
+unsigned int getShaderProgram(unsigned int vertexShader, unsigned int fragmentShader)
+{
   unsigned int shaderProgram;
   shaderProgram = glCreateProgram();
 
   glAttachShader(shaderProgram, vertexShader);
   glAttachShader(shaderProgram, fragmentShader);
   glLinkProgram(shaderProgram);
+  int success;
+  char infoLog[512];
 
   glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
 
@@ -191,10 +175,42 @@ void update()
               << infoLog << std::endl;
   }
 
+  return shaderProgram;
+}
+
+void update()
+{
+  unsigned int vertexShader = getVertexShader();
+  unsigned int fragmentShader = getFragmentShader();
+
+  unsigned int shaderProgram = getShaderProgram(vertexShader, fragmentShader);
+
   glDeleteShader(vertexShader);
   glDeleteShader(fragmentShader);
 
+  float triangleVertices[] = {
+      -0.5f, -0.5f, 0.0f,
+      0.5f, -0.5f, 0.0f,
+      0.0f, 0.5f, 0.0f};
+
+  unsigned int vertexArrayObject, vertexBufferObject;
+
+  glGenVertexArrays(1, &vertexArrayObject);
+  glGenBuffers(1, &vertexBufferObject);
+
+  glBindVertexArray(vertexArrayObject);
+
+  glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertices), triangleVertices, GL_STATIC_DRAW);
+
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
   glEnableVertexAttribArray(0);
+
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+  glBindVertexArray(0);
+
   glUseProgram(shaderProgram);
+  glBindVertexArray(vertexArrayObject);
+  glDrawArrays(GL_TRIANGLES, 0, 3);
 }

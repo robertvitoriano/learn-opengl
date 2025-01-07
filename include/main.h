@@ -6,7 +6,8 @@
 #include <random>
 
 void handleWindowResize(int width, int height);
-void proccessInput(SDL_Event event);
 void update();
-
+unsigned int getFragmentShader();
+unsigned int getVertexShader();
+unsigned int getShaderProgram(unsigned int vertexShader, unsigned int fragmentShader);
 #endif
