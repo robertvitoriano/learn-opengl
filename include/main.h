@@ -7,5 +7,6 @@
 
 void handleWindowResize(int width, int height);
 void proccessInput(SDL_Event event);
+void update();
 
-#endif MAIN_H
+#endif
