@@ -155,15 +155,18 @@ void update()
   glDeleteShader(fragmentShader);
 
   float vertices[] = {
-      0.5f, 0.5f, 0.0f,   // top right
-      0.5f, -0.5f, 0.0f,  // bottom right
-      -0.5f, -0.5f, 0.0f, // bottom left
-      -0.5f, 0.5f, 0.0f   // top left
+      0.5f, 1.0f, 0.0f,  // top right
+      0.5f, 0.0f, 0.0f,  // bottom right
+      -0.5f, 0.0f, 0.0f, // bottom left
+      -0.5f, 1.0f, 0.0f, // top left
+      0.0f, -0.5f, 0.0f, // 4
+      0.0f, 0.0f, 0.0f,  // 5
   };
   unsigned int indices[] = {
       0, 1, 3, // first triangle
-      1, 2, 3  // second triangle
-  };
+      1, 2, 3, // second triangle
+      1, 4, 5, // bottom triangle
+      4, 2, 5};
   unsigned int elementBufferObject;
   glGenBuffers(1, &elementBufferObject);
 
@@ -180,8 +183,9 @@ void update()
   glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferObject);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
+
   glEnableVertexAttribArray(0);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -190,13 +194,21 @@ void update()
 
   glUseProgram(shaderProgram);
 
-  GLint colorLocation = glGetUniformLocation(shaderProgram, "ourColor");
-  glUniform3f(colorLocation, 1.0f, 0.0f, 0.0f); // Red
   glBindVertexArray(vertexArrayObject);
+
+  GLint colorLocation = glGetUniformLocation(shaderProgram, "ourColor");
+
+  glUniform3f(colorLocation, 1.0f, 0.0f, 0.0f);
   glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 
-  glUniform3f(colorLocation, 0.0f, 0.0f, 1.0f); // Blue
+  glUniform3f(colorLocation, 0.0f, 0.0f, 1.0f);
   glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, (void *)(3 * sizeof(unsigned int)));
+
+  glUniform3f(colorLocation, 0.5f, 0.2f, 0.1f);
+  glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, (void *)(6 * sizeof(unsigned int)));
+
+  glUniform3f(colorLocation, 0.7f, 0.1f, 0.5f);
+  glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, (void *)(9 * sizeof(unsigned int)));
 
   glBindVertexArray(0);
 }
