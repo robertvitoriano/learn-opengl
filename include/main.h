@@ -4,6 +4,7 @@
 #include <glad/glad.h>
 #include <SDL2/SDL.h>
 #include <random>
+#include <utils.h>
 
 void handleWindowResize(int width, int height);
 void update();

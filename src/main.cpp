@@ -4,20 +4,6 @@ GLfloat colorR = 0.0f;
 GLfloat colorG = 0.0f;
 GLfloat colorB = 0.0f;
 
-const char *fragmentShaderSource = "#version 330 core\n"
-                                   "out vec4 FragColor;\n"
-                                   "void main()\n"
-                                   "{\n"
-                                   "   FragColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);\n"
-                                   "}\0";
-
-const char *vertexShaderSource = "#version 330 core\n"
-                                 "layout (location = 0) in vec3 aPos;\n"
-                                 "void main()\n"
-                                 "{\n"
-                                 "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-                                 "}\0";
-
 int main(int argc, char *argv[])
 {
   int FPS = 60;
@@ -158,6 +144,8 @@ unsigned int getShaderProgram(unsigned int vertexShader, unsigned int fragmentSh
 
 void update()
 {
+  const char *vertexShaderSource = readFile("shaders/vertex_shader.glsl");
+  const char *fragmentShaderSource = readFile("shaders/fragment_shader.glsl");
   unsigned int vertexShader = compileShader(GL_VERTEX_SHADER, vertexShaderSource);
   unsigned int fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
 
@@ -201,8 +189,14 @@ void update()
   glBindVertexArray(0);
 
   glUseProgram(shaderProgram);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferObject);
+
+  GLint colorLocation = glGetUniformLocation(shaderProgram, "ourColor");
+  glUniform3f(colorLocation, 1.0f, 0.0f, 0.0f); // Red
   glBindVertexArray(vertexArrayObject);
-  glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+  glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+
+  glUniform3f(colorLocation, 0.0f, 0.0f, 1.0f); // Blue
+  glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, (void *)(3 * sizeof(unsigned int)));
+
   glBindVertexArray(0);
 }
