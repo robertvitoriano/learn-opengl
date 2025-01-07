@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 include_directories(include /usr/include)
 
-set(SRC src/main.cpp src/glad.c)
+file(GLOB SRC "src/*.cpp" "src/*.c")
 
 add_executable(Triangle ${SRC})
 

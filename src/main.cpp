@@ -144,8 +144,8 @@ unsigned int getShaderProgram(unsigned int vertexShader, unsigned int fragmentSh
 
 void update()
 {
-  const char *vertexShaderSource = readFile("shaders/vertex_shader.glsl");
-  const char *fragmentShaderSource = readFile("shaders/fragment_shader.glsl");
+  const char *vertexShaderSource = readFile("../shaders/vertex_shader.glsl");
+  const char *fragmentShaderSource = readFile("../shaders/fragment_shader.glsl");
   unsigned int vertexShader = compileShader(GL_VERTEX_SHADER, vertexShaderSource);
   unsigned int fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
 
