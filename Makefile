@@ -4,8 +4,8 @@ CXXFLAGS = -std=c++17 -Iinclude -I/usr/include
 LDFLAGS = -lSDL2 -lGL -ldl
 
 # Source files and object files
-SRC = src/main.cpp src/glad.c
-OBJ = bin/main.o bin/glad.o
+SRC = src/main.cpp src/utils.cpp src/glad.c 
+OBJ = bin/main.o bin/glad.o  bin/utils.o
 EXEC = build/Triangle
 
 # Default target to build the application
@@ -21,6 +21,9 @@ bin/main.o: src/main.cpp
 
 # Rule to compile glad.c to glad.o
 bin/glad.o: src/glad.c
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+	
+bin/utils.o: src/utils.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Rule to link object files and create the executable
