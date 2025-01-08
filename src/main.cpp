@@ -204,10 +204,17 @@ void update()
   glUniform3f(colorLocation, 0.0f, 0.0f, 1.0f);
   glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, (void *)(3 * sizeof(unsigned int)));
 
-  glUniform3f(colorLocation, 0.5f, 0.2f, 0.1f);
+  GLfloat timeValue = SDL_GetTicks() / 1000.0f;
+  GLfloat redValue = (sin(timeValue) / 4.0f) + 0.5f;
+  GLfloat green = (sin(timeValue) / 4.0f) + 0.5f;
+  GLfloat blue = (sin(timeValue) / 4.0f) + 0.5f;
+
+  glUniform3f(colorLocation, redValue, green, blue);
   glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, (void *)(6 * sizeof(unsigned int)));
 
-  glUniform3f(colorLocation, 0.7f, 0.1f, 0.5f);
+  float greenValue = sin(timeValue) / 2.0f + 0.5f;
+  glUniform3f(colorLocation, 0.0f, greenValue, 0.0f);
+
   glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, (void *)(9 * sizeof(unsigned int)));
 
   glBindVertexArray(0);
