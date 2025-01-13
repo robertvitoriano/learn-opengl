@@ -5,13 +5,10 @@ Shader::Shader(const std::string &vertexPath, const std::string &fragmentPath)
   const char *vShaderCode = readFile(vertexPath);
   const char *fShaderCode = readFile(fragmentPath);
 
-  // 2. compile shaders
-  unsigned int vertex,
-      fragment;
+  unsigned int vertex, fragment;
   int success;
   char infoLog[512];
 
-  // vertex Shader
   vertex = glCreateShader(GL_VERTEX_SHADER);
   glShaderSource(vertex, 1, &vShaderCode, NULL);
   glCompileShader(vertex);
@@ -35,15 +32,15 @@ Shader::Shader(const std::string &vertexPath, const std::string &fragmentPath)
               << infoLog << std::endl;
   };
 
-  ID = glCreateProgram();
-  glAttachShader(ID, vertex);
-  glAttachShader(ID, fragment);
-  glLinkProgram(ID);
+  this->ID = glCreateProgram();
+  glAttachShader(this->ID, vertex);
+  glAttachShader(this->ID, fragment);
+  glLinkProgram(this->ID);
 
-  glGetProgramiv(ID, GL_LINK_STATUS, &success);
+  glGetProgramiv(this->ID, GL_LINK_STATUS, &success);
   if (!success)
   {
-    glGetProgramInfoLog(ID, 512, NULL, infoLog);
+    glGetProgramInfoLog(this->ID, 512, NULL, infoLog);
     std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n"
               << infoLog << std::endl;
   }

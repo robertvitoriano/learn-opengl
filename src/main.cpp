@@ -98,61 +98,10 @@ void handleWindowResize(int width, int height)
   glViewport(0, 0, width, height);
 }
 
-unsigned int compileShader(unsigned int shaderType, const char *shaderSource)
-{
-  unsigned int fragmentShader;
-
-  fragmentShader = glCreateShader(shaderType);
-  glShaderSource(fragmentShader, 1, &shaderSource, NULL);
-  glCompileShader(fragmentShader);
-  int success;
-  char infoLog[512];
-
-  glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-
-  if (!success)
-  {
-    glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-    std::cout << "ERROR::SHADER::COMPILATION_FAILED\n"
-              << infoLog << std::endl;
-  }
-  return fragmentShader;
-}
-
-unsigned int getShaderProgram(unsigned int vertexShader, unsigned int fragmentShader)
-{
-  unsigned int shaderProgram;
-  shaderProgram = glCreateProgram();
-
-  glAttachShader(shaderProgram, vertexShader);
-  glAttachShader(shaderProgram, fragmentShader);
-  glLinkProgram(shaderProgram);
-  int success;
-  char infoLog[512];
-
-  glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-
-  if (!success)
-  {
-    glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-    std::cout << "ERROR::SHADER::PROGRAM::COMPILATION_FAILED\n"
-              << infoLog << std::endl;
-  }
-
-  return shaderProgram;
-}
-
 void update()
 {
-  const char *vertexShaderSource = readFile("../shaders/vertex_shader.glsl");
-  const char *fragmentShaderSource = readFile("../shaders/fragment_shader.glsl");
-  unsigned int vertexShader = compileShader(GL_VERTEX_SHADER, vertexShaderSource);
-  unsigned int fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
 
-  unsigned int shaderProgram = getShaderProgram(vertexShader, fragmentShader);
-
-  glDeleteShader(vertexShader);
-  glDeleteShader(fragmentShader);
+  Shader ourShader("../shaders/vertex_shader.glsl", "../shaders/fragment_shader.glsl");
 
   float vertices[] = {
       // positions         // colors
@@ -191,7 +140,7 @@ void update()
 
   glBindVertexArray(0);
 
-  glUseProgram(shaderProgram);
+  ourShader.use();
 
   glBindVertexArray(vertexArrayObject);
 
