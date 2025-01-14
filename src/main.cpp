@@ -6,6 +6,8 @@ GLfloat colorB = 0.0f;
 
 unsigned int vertexArrayObject;
 
+float xOffset = 0.0;
+
 int main(int argc, char *argv[])
 {
   int FPS = 60;
@@ -59,7 +61,9 @@ int main(int argc, char *argv[])
 
   SDL_Event event;
 
-  setupShader();
+  Shader shader("../shaders/vertex_shader.glsl", "../shaders/fragment_shader.glsl");
+
+  setupShader(&shader);
 
   while (running)
   {
@@ -77,7 +81,19 @@ int main(int argc, char *argv[])
         handleWindowResize(width, height);
       }
 
-      draw();
+      if (event.type == SDL_KEYDOWN)
+      {
+        if (event.key.keysym.sym == SDLK_RIGHT)
+        {
+          xOffset += 0.1;
+        }
+        else if (event.key.keysym.sym == SDLK_LEFT)
+        {
+          xOffset -= 0.1;
+        }
+      }
+
+      draw(&shader);
     }
 
     SDL_GL_SwapWindow(window);
@@ -101,10 +117,8 @@ void handleWindowResize(int width, int height)
   glViewport(0, 0, width, height);
 }
 
-void setupShader()
+void setupShader(Shader *shader)
 {
-
-  Shader shader("../shaders/vertex_shader.glsl", "../shaders/fragment_shader.glsl");
 
   float vertices[] = {
       // positions         // colors
@@ -146,15 +160,15 @@ void setupShader()
 
   glBindVertexArray(0);
 
-  shader.use();
+  shader->use();
 }
 
-void draw()
+void draw(Shader *shader)
 {
   glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT);
 
   glBindVertexArray(vertexArrayObject);
-
+  shader->setFloat("xOffset", xOffset);
   glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 }

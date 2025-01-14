@@ -8,7 +8,7 @@
 #include <shader.h>
 void handleWindowResize(int width, int height);
 
-void setupShader();
-void draw();
+void setupShader(Shader *shader);
+void draw(Shader *shader);
 
 #endif
