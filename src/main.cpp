@@ -62,6 +62,8 @@ int main(int argc, char *argv[])
   SDL_Event event;
 
   Shader shader("../shaders/vertex_shader.glsl", "../shaders/fragment_shader.glsl");
+  int width, height, nrChannels;
+  unsigned char *data = stbi_load("container.jpg", &width, &height, &nrChannels, 0);
 
   setupShader(&shader);
 
@@ -126,6 +128,12 @@ void setupShader(Shader *shader)
       -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom left
       0.0f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f  // top
   };
+
+  float texCoords[] = {
+      0.5, 0.0, // bottom
+      0.0, 0.5, // left corner
+      1.0, 0.0  // right corner
+  }
 
   unsigned int indices[] = {
       0,

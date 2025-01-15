@@ -6,6 +6,8 @@
 #include <random>
 #include <utils.h>
 #include <shader.h>
+#include <stb_image.h>
+
 void handleWindowResize(int width, int height);
 
 void setupShader(Shader *shader);
