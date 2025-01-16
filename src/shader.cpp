@@ -66,3 +66,10 @@ void Shader::setFloat(const std::string &name, float value) const
 {
   glUniform1f(glGetUniformLocation(this->ID, name.c_str()), value);
 }
+
+void Shader::setVec3f(const std::string &name, float color[3]) const
+{
+    GLint location = glGetUniformLocation(this->ID, name.c_str());
+
+    glUniform3fv(location, 1, color);
+}

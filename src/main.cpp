@@ -188,6 +188,8 @@ void draw(Shader *shader)
 
   shader->setFloat("xOffset",xOffset);
   shader->setFloat("yOffset",yOffset);
+  shader->setVec3f("")
+
 
   glBindVertexArray(vertexArrayObject);
   glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
