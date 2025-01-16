@@ -6,8 +6,8 @@ GLfloat colorB = 0.0f;
 
 unsigned int vertexArrayObject;
 
-float xOffset = 0.0;
-
+float xOffset = 0.0f;
+float yOffset = 0.0f;
 int main(int argc, char *argv[])
 {
   int FPS = 60;
@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 
   Shader shader("../shaders/vertex_shader.glsl", "../shaders/fragment_shader.glsl");
 
-  setupShader(&shader);
+  initializeGraphicsPipeline(&shader);
 
   bool running = true;
   SDL_Event event;
@@ -72,6 +72,26 @@ int main(int argc, char *argv[])
       if (event.type == SDL_QUIT)
       {
         running = false;
+      }
+
+      if (event.type == SDL_KEYDOWN)
+      {
+        if (event.key.keysym.sym == SDLK_RIGHT)
+        {
+          xOffset += 0.1;
+        }
+        else if (event.key.keysym.sym == SDLK_LEFT)
+        {
+          xOffset -= 0.1;
+        }
+        else if (event.key.keysym.sym == SDLK_UP)
+        {
+          yOffset += 0.1;
+        }
+        else if (event.key.keysym.sym == SDLK_DOWN)
+        {
+          yOffset -= 0.1;
+        }
       }
     }
 
@@ -92,7 +112,7 @@ int main(int argc, char *argv[])
   return 0;
 }
 
-void setupShader(Shader *shader)
+void initializeGraphicsPipeline(Shader *shader)
 {
 float vertices[] = {
     // Positions        // Colors       // Texture Coords
@@ -129,17 +149,17 @@ float vertices[] = {
   }
   stbi_image_free(data);
 
-  unsigned int vertexBufferObject, elementBfferO;
+  unsigned int vertexBufferObject, elementBufferObject;
   glGenVertexArrays(1, &vertexArrayObject);
   glGenBuffers(1, &vertexBufferObject);
-  glGenBuffers(1, &elementBfferO);
+  glGenBuffers(1, &elementBufferObject);
 
   glBindVertexArray(vertexArrayObject);
 
   glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBfferO);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferObject);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
   // Position attribute
@@ -165,6 +185,9 @@ void draw(Shader *shader)
   glClear(GL_COLOR_BUFFER_BIT);
 
   shader->use();
+
+  shader->setFloat("xOffset",xOffset);
+  shader->setFloat("yOffset",yOffset);
 
   glBindVertexArray(vertexArrayObject);
   glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

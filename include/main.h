@@ -10,7 +10,7 @@
 
 void handleWindowResize(int width, int height);
 
-void setupShader(Shader *shader);
+void initializeGraphicsPipeline(Shader *shader);
 void draw(Shader *shader);
 
 #endif
