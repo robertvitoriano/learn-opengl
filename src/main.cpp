@@ -94,13 +94,13 @@ int main(int argc, char *argv[])
 
 void setupShader(Shader *shader)
 {
-  float vertices[] = {
-      // Vetices        //color    //texture position
-       0.5f, 0.5f, 0.0f, 0.5f, 0.1f, 0.4f, 1.0f, 1.0f,   // top right
-       0.5f, -0.5f, 0.0f, 0.3f, 0.2f, 0.1f, 1.0f, -1.0f, // bottom right
-      -0.5f, -0.5f, 0.0f, 0.9f, 0.7, 0.6f, 0.0f, 0.0f,  // bottom left
-      -0.5f, 0.5f, 0.0f, 0.5f, 0.3f, 0.2f, 0.0f, 1.0f,  // top left
-  };
+float vertices[] = {
+    // Positions        // Colors       // Texture Coords
+     0.5f,  0.5f, 0.0f,  0.5f, 0.1f, 0.4f,  1.0f, 1.0f,   // Top Right
+     0.5f, -0.5f, 0.0f,  0.3f, 0.2f, 0.1f,  1.0f, 0.0f,   // Bottom Right
+    -0.5f, -0.5f, 0.0f,  0.9f, 0.7f, 0.6f,  0.0f, 0.0f,   // Bottom Left
+    -0.5f,  0.5f, 0.0f,  0.5f, 0.3f, 0.2f,  0.0f, 1.0f    // Top Left
+};
   unsigned int indices[] = {
       0, 1, 3, // first triangle
       1, 2, 3  // second triangle
@@ -143,15 +143,15 @@ void setupShader(Shader *shader)
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
   // Position attribute
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)0);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
   glEnableVertexAttribArray(0);
 
-  // color attribute
-  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)(3 * sizeof(float)));
+  // Color attribute
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
   glEnableVertexAttribArray(1);
 
-  // texture coordinate attribute
-  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(6 * sizeof(float)));
+  // Texture coordinate attribute
+  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
   glEnableVertexAttribArray(2);
 
   glBindVertexArray(0);
