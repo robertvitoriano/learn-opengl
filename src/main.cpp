@@ -5,6 +5,8 @@ GLfloat colorG = 0.0f;
 GLfloat colorB = 0.0f;
 
 unsigned int vertexArrayObject;
+unsigned int texture;
+
 
 float xOffset = 0.0f;
 float yOffset = 0.0f;
@@ -121,33 +123,13 @@ float vertices[] = {
     -0.5f, -0.5f, 0.0f,  0.9f, 0.7f, 0.6f,  0.0f, 0.0f,   // Bottom Left
     -0.5f,  0.5f, 0.0f,  0.5f, 0.3f, 0.2f,  0.0f, 1.0f    // Top Left
 };
+
   unsigned int indices[] = {
       0, 1, 3, // first triangle
       1, 2, 3  // second triangle
   };
 
-  unsigned int texture;
-  glGenTextures(1, &texture);
-  glBindTexture(GL_TEXTURE_2D, texture);
-
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-  int width, height, nrChannels;
-
-  unsigned char *data = stbi_load("../container.jpg", &width, &height, &nrChannels, 0);
-  if (data)
-  {
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-    glGenerateMipmap(GL_TEXTURE_2D);
-  }
-  else
-  {
-    std::cout << "Failed to load texture" << std::endl;
-  }
-  stbi_image_free(data);
+  loadTexture("../container.jpg");
 
   unsigned int vertexBufferObject, elementBufferObject;
   glGenVertexArrays(1, &vertexArrayObject);
@@ -161,18 +143,29 @@ float vertices[] = {
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferObject);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+  
+  int vertexStride = 8;
+  
+  int positionAttributeIndex = 0;
+  int positionAtribbuteLength = 3;
+  int positionAttributeOffset = 0;
+  
+  glVertexAttribPointer(positionAttributeIndex, positionAtribbuteLength, GL_FLOAT, GL_FALSE, vertexStride * sizeof(float), (void*)positionAttributeOffset);
+  glEnableVertexAttribArray(positionAttributeIndex);
 
-  // Position attribute
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-  glEnableVertexAttribArray(0);
+  int colorAttributeIndex = 1;
+  int colorAtribbuteLength = 3;
+  int colorAttributeOffset = 3;
 
-  // Color attribute
-  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-  glEnableVertexAttribArray(1);
+  glVertexAttribPointer(colorAttributeIndex, colorAtribbuteLength, GL_FLOAT, GL_FALSE, vertexStride * sizeof(float), (void*)(colorAttributeOffset * sizeof(float)));
+  glEnableVertexAttribArray(colorAttributeIndex);
+  
+  int textureAttributeIndex = 2;
+  int textureAtribbuteLength = 2;
+  int textureAttributeOffset = 6;
 
-  // Texture coordinate attribute
-  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-  glEnableVertexAttribArray(2);
+  glVertexAttribPointer(textureAttributeIndex, textureAtribbuteLength, GL_FLOAT, GL_FALSE, vertexStride * sizeof(float), (void*)(textureAttributeOffset * sizeof(float)));
+  glEnableVertexAttribArray(textureAttributeIndex);
 
   glBindVertexArray(0);
 
@@ -188,9 +181,33 @@ void draw(Shader *shader)
 
   shader->setFloat("xOffset",xOffset);
   shader->setFloat("yOffset",yOffset);
-  shader->setVec3f("")
+  // shader->setVec3f("")
 
 
   glBindVertexArray(vertexArrayObject);
   glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+}
+
+void loadTexture(std::string imagePath){
+  glGenTextures(1, &texture);
+  glBindTexture(GL_TEXTURE_2D, texture);
+
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+  int width, height, nrChannels;
+
+  unsigned char *data = stbi_load(imagePath.c_str(), &width, &height, &nrChannels, 0);
+  if (data)
+  {
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    glGenerateMipmap(GL_TEXTURE_2D);
+  }
+  else
+  {
+    std::cout << "Failed to load texture" << std::endl;
+  }
+  stbi_image_free(data);
 }
