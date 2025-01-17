@@ -5,8 +5,6 @@ GLfloat colorG = 0.0f;
 GLfloat colorB = 0.0f;
 
 unsigned int vertexArrayObject;
-unsigned int texture;
-
 
 float xOffset = 0.0f;
 float yOffset = 0.0f;
@@ -168,8 +166,6 @@ float vertices[] = {
   glEnableVertexAttribArray(textureAttributeIndex);
 
   glBindVertexArray(0);
-
-  glBindTexture(GL_TEXTURE_2D, texture);
 }
 
 void draw(Shader *shader)
@@ -189,6 +185,9 @@ void draw(Shader *shader)
 }
 
 void loadTexture(std::string imagePath){
+  
+  unsigned int texture;
+  
   glGenTextures(1, &texture);
   glBindTexture(GL_TEXTURE_2D, texture);
 
@@ -210,4 +209,7 @@ void loadTexture(std::string imagePath){
     std::cout << "Failed to load texture" << std::endl;
   }
   stbi_image_free(data);
+  
+  glBindTexture(GL_TEXTURE_2D, texture);
+
 }
