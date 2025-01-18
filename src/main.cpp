@@ -166,11 +166,6 @@ float vertices[] = {
   glEnableVertexAttribArray(textureAttributeIndex);
 
   glBindVertexArray(0);
-          
-glm::mat4 translationMatrix = glm::mat4(1.0f);
-translationMatrix = glm::rotate(translationMatrix, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
-translationMatrix = glm::scale(translationMatrix, glm::vec3(0.5, 0.5, 0.5));
-// shader->setMat4F("transform",transformationMatrix);
 
 }
 
@@ -180,11 +175,13 @@ void draw(Shader *shader)
   glClear(GL_COLOR_BUFFER_BIT);
 
   shader->use();
-
-  shader->setFloat("xOffset",xOffset);
-  shader->setFloat("yOffset",yOffset);
-  // shader->setVec3f("")
-
+  
+  glm::mat4 transformationMatrix = glm::mat4(1.0f);
+  transformationMatrix = glm::rotate(transformationMatrix, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
+  transformationMatrix = glm::scale(transformationMatrix, glm::vec3(0.5, 0.5, 1.0));
+  transformationMatrix = glm::translate(transformationMatrix, glm::vec3(xOffset, yOffset,1.0f));
+  
+  shader->setMat4F("transform", transformationMatrix);
 
   glBindVertexArray(vertexArrayObject);
   glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
