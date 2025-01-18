@@ -8,6 +8,9 @@
 #include <sstream>
 #include <iostream>
 #include <utils.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 class Shader
 {
 public:
@@ -20,6 +23,7 @@ public:
   void setInt(const std::string &name, int value) const;
   void setFloat(const std::string &name, float value) const;
   void setVec3f(const std::string &name, float color[3]) const;
+  void setMat4F(const std::string &name, glm::mat4 transformationMatrix)const;
 };
 
 #endif

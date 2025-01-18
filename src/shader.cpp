@@ -73,3 +73,8 @@ void Shader::setVec3f(const std::string &name, float color[3]) const
 
     glUniform3fv(location, 1, color);
 }
+
+void Shader::setMat4F(const std::string &name, glm::mat4 transformationMatrix)const{
+  unsigned int transformLocation = glGetUniformLocation(this->ID, name.c_str());
+  glUniformMatrix4fv(transformLocation, 1, GL_FALSE, glm::value_ptr(transformationMatrix));
+}

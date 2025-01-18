@@ -166,6 +166,12 @@ float vertices[] = {
   glEnableVertexAttribArray(textureAttributeIndex);
 
   glBindVertexArray(0);
+          
+glm::mat4 translationMatrix = glm::mat4(1.0f);
+translationMatrix = glm::rotate(translationMatrix, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
+translationMatrix = glm::scale(translationMatrix, glm::vec3(0.5, 0.5, 0.5));
+// shader->setMat4F("transform",transformationMatrix);
+
 }
 
 void draw(Shader *shader)
