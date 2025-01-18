@@ -9,6 +9,8 @@ unsigned int vertexArrayObject;
 float scale = 1.0f;
 float xOffset = 0.0f;
 float yOffset = 0.0f;
+float rotationAngle = 0.0f;
+
 int main(int argc, char *argv[])
 {
   int FPS = 60;
@@ -108,6 +110,9 @@ int main(int argc, char *argv[])
             scale += 0.1f;
           }
         }
+        else if (event.key.keysym.sym == SDLK_r) {
+          rotationAngle += 10.0f;
+        }
       }
     }
     draw(&shader);
@@ -191,10 +196,9 @@ void draw(Shader *shader)
 
   shader->use();
   
-
   glm::mat4 transformationMatrix = glm::mat4(1.0f);
   transformationMatrix = glm::translate(transformationMatrix, glm::vec3(xOffset, yOffset, 0.0f));
-  transformationMatrix = glm::rotate(transformationMatrix, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
+  transformationMatrix = glm::rotate(transformationMatrix, glm::radians(rotationAngle), glm::vec3(1.0, 0.0, 0.0));
   transformationMatrix = glm::scale(transformationMatrix, glm::vec3(scale, scale, 1.0));
 
   shader->setMat4F("transform", transformationMatrix);
