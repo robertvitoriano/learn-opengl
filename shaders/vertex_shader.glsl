@@ -4,8 +4,7 @@ layout (location = 1) in vec3 aColor;
 layout (location = 2) in vec2 aTexCoord;
 
 out vec3 ourColor;
-uniform float xOffset;
-uniform float yOffset;
+
 uniform mat4 transform;
 
 out vec3 outPosition;

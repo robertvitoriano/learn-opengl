@@ -6,6 +6,7 @@ GLfloat colorB = 0.0f;
 
 unsigned int vertexArrayObject;
 
+float scale = 1.0f;
 float xOffset = 0.0f;
 float yOffset = 0.0f;
 int main(int argc, char *argv[])
@@ -92,6 +93,16 @@ int main(int argc, char *argv[])
         {
           yOffset -= 0.1;
         }
+        else if (event.key.keysym.sym == SDLK_PLUS)
+        {
+          std::cout << "PLUS WAS PRESSED "<< std::endl; 
+          scale += 0.1;
+        }
+        else if (event.key.keysym.sym == SDLK_MINUS)
+        {
+          std::cout << "MINUS WAS PRESSED "<< std::endl;
+          scale -= 0.1;
+        }
       }
     }
 
@@ -176,11 +187,12 @@ void draw(Shader *shader)
 
   shader->use();
   
+
   glm::mat4 transformationMatrix = glm::mat4(1.0f);
+  transformationMatrix = glm::translate(transformationMatrix, glm::vec3(xOffset, yOffset, 0.0f));
   transformationMatrix = glm::rotate(transformationMatrix, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
-  transformationMatrix = glm::scale(transformationMatrix, glm::vec3(0.5, 0.5, 1.0));
-  transformationMatrix = glm::translate(transformationMatrix, glm::vec3(xOffset, yOffset,1.0f));
-  
+  transformationMatrix = glm::scale(transformationMatrix, glm::vec3(scale, scale, 1.0));
+
   shader->setMat4F("transform", transformationMatrix);
 
   glBindVertexArray(vertexArrayObject);
