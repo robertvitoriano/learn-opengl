@@ -93,19 +93,23 @@ int main(int argc, char *argv[])
         {
           yOffset -= 0.1;
         }
-        else if (event.key.keysym.sym == SDLK_PLUS)
-        {
-          std::cout << "PLUS WAS PRESSED "<< std::endl; 
-          scale += 0.1;
-        }
         else if (event.key.keysym.sym == SDLK_MINUS)
         {
-          std::cout << "MINUS WAS PRESSED "<< std::endl;
-          scale -= 0.1;
+          std::cout << "MINUS WAS PRESSED" << std::endl;
+          scale -= 0.1f;
+          if (scale < 0.1f)
+            scale = 0.1f;
+        }
+        else if (event.key.keysym.sym == SDLK_EQUALS)
+        {
+          if (event.key.keysym.mod & KMOD_SHIFT)
+          {
+            std::cout << "PLUS WAS PRESSED" << std::endl;
+            scale += 0.1f;
+          }
         }
       }
     }
-
     draw(&shader);
 
     SDL_GL_SwapWindow(window);
