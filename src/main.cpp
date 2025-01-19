@@ -252,7 +252,7 @@ void draw(Shader *shader)
   glm::mat4 transformationMatrix = glm::mat4(1.0f);
   transformationMatrix = glm::translate(transformationMatrix, glm::vec3(xOffset, yOffset, 0.0f));
   transformationMatrix = glm::rotate(transformationMatrix, glm::radians(rotationAngle), glm::vec3(1.0, 0.0, 0.0));
-  transformationMatrix = glm::scale(transformationMatrix, glm::vec3(scale, scale, 1.0));
+  transformationMatrix = glm::scale(transformationMatrix, glm::vec3(scale, scale, scale));
 
   shader->setMat4F("transform", transformationMatrix);
   glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
