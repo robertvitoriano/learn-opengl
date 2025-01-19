@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-
+  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
   SDL_Window *window = SDL_CreateWindow(
       "OpenGL Window",
       SDL_WINDOWPOS_CENTERED,
@@ -60,6 +60,8 @@ int main(int argc, char *argv[])
   }
 
   glViewport(0, 0, 800, 600);
+  glEnable(GL_DEPTH_TEST);
+
 
   Shader shader("../shaders/vertex_shader.glsl", "../shaders/fragment_shader.glsl");
 
@@ -244,7 +246,7 @@ unsigned int indices[] = {
 
 void draw(Shader *shader)
 {
-  glClear(GL_COLOR_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   shader->use();
   
   glm::mat4 transformationMatrix = glm::mat4(1.0f);
