@@ -135,16 +135,27 @@ int main(int argc, char *argv[])
 void initializeGraphicsPipeline(Shader *shader)
 {
 float vertices[] = {
+  // FIRST FACE
+  
     // Positions        // Colors       // Texture Coords
      0.5f,  0.5f, 0.0f,  0.5f, 0.1f, 0.4f,  1.0f, 1.0f,   // Top Right
      0.5f, -0.5f, 0.0f,  0.3f, 0.2f, 0.1f,  1.0f, 0.0f,   // Bottom Right
     -0.5f, -0.5f, 0.0f,  0.9f, 0.7f, 0.6f,  0.0f, 0.0f,   // Bottom Left
-    -0.5f,  0.5f, 0.0f,  0.5f, 0.3f, 0.2f,  0.0f, 1.0f    // Top Left
+    -0.5f,  0.5f, 0.0f,  0.5f, 0.3f, 0.2f,  0.0f, 1.0f,    // Top Left
+    
+  // SECOND FACE
+    // Positions        // Colors       // Texture Coords
+     0.5f,  0.5f, -0.5f,  0.5f, 0.1f, 0.4f,  1.0f, 1.0f,   // Top Right
+    -0.5f,  0.5f, -0.5f,  0.5f, 0.3f, 0.2f,  0.0f, 1.0f    // Top Left
 };
 
   unsigned int indices[] = {
+    // FIRST FACE
       0, 1, 3, // first triangle
-      1, 2, 3  // second triangle
+      1, 2, 3,  // second triangle
+    // SECOND FACE
+      1, 2, 4, // third triangle
+      // 0, 4, 5  // second triangle
   };
 
   loadTexture("../container.jpg");
@@ -204,7 +215,7 @@ void draw(Shader *shader)
   shader->setMat4F("transform", transformationMatrix);
 
   glBindVertexArray(vertexArrayObject);
-  glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+  glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
 }
 
 void loadTexture(std::string imagePath){
