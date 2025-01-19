@@ -135,28 +135,70 @@ int main(int argc, char *argv[])
 void initializeGraphicsPipeline(Shader *shader)
 {
 float vertices[] = {
-  // FIRST FACE
-  
-    // Positions        // Colors       // Texture Coords
-     0.5f,  0.5f, 0.0f,  0.5f, 0.1f, 0.4f,  1.0f, 1.0f,   // Top Right
-     0.5f, -0.5f, 0.0f,  0.3f, 0.2f, 0.1f,  1.0f, 0.0f,   // Bottom Right
-    -0.5f, -0.5f, 0.0f,  0.9f, 0.7f, 0.6f,  0.0f, 0.0f,   // Bottom Left
-    -0.5f,  0.5f, 0.0f,  0.5f, 0.3f, 0.2f,  0.0f, 1.0f,    // Top Left
-    
-  // SECOND FACE
-    // Positions        // Colors       // Texture Coords
-     0.5f,  0.5f, -0.5f,  0.5f, 0.1f, 0.4f,  1.0f, 1.0f,   // Top Right
-    -0.5f,  0.5f, -0.5f,  0.5f, 0.3f, 0.2f,  0.0f, 1.0f    // Top Left
+    // FIRST FACE (Front)
+     0.5f,  0.5f,  0.5f,  0.5f, 0.1f, 0.4f,  1.0f, 1.0f, // Top Right
+     0.5f, -0.5f,  0.5f,  0.3f, 0.2f, 0.1f,  1.0f, 0.0f, // Bottom Right
+    -0.5f, -0.5f,  0.5f,  0.9f, 0.7f, 0.6f,  0.0f, 0.0f, // Bottom Left
+    -0.5f,  0.5f,  0.5f,  0.5f, 0.3f, 0.2f,  0.0f, 1.0f, // Top Left
+
+    // SECOND FACE (Back)
+     0.5f,  0.5f, -0.5f,  0.5f, 0.1f, 0.4f,  1.0f, 1.0f, // Top Right
+     0.5f, -0.5f, -0.5f,  0.3f, 0.2f, 0.1f,  1.0f, 0.0f, // Bottom Right
+    -0.5f, -0.5f, -0.5f,  0.9f, 0.7f, 0.6f,  0.0f, 0.0f, // Bottom Left
+    -0.5f,  0.5f, -0.5f,  0.5f, 0.3f, 0.2f,  0.0f, 1.0f, // Top Left
+
+    // THIRD FACE (Left)
+    -0.5f,  0.5f, -0.5f,  0.5f, 0.1f, 0.4f,  1.0f, 1.0f, // Top Right
+    -0.5f, -0.5f, -0.5f,  0.3f, 0.2f, 0.1f,  1.0f, 0.0f, // Bottom Right
+    -0.5f, -0.5f,  0.5f,  0.9f, 0.7f, 0.6f,  0.0f, 0.0f, // Bottom Left
+    -0.5f,  0.5f,  0.5f,  0.5f, 0.3f, 0.2f,  0.0f, 1.0f, // Top Left
+
+    // FOURTH FACE (Right)
+     0.5f,  0.5f,  0.5f,  0.5f, 0.1f, 0.4f,  1.0f, 1.0f, // Top Right
+     0.5f, -0.5f,  0.5f,  0.3f, 0.2f, 0.1f,  1.0f, 0.0f, // Bottom Right
+     0.5f, -0.5f, -0.5f,  0.9f, 0.7f, 0.6f,  0.0f, 0.0f, // Bottom Left
+     0.5f,  0.5f, -0.5f,  0.5f, 0.3f, 0.2f,  0.0f, 1.0f, // Top Left
+
+    // FIFTH FACE (Top)
+     0.5f,  0.5f, -0.5f,  0.5f, 0.1f, 0.4f,  1.0f, 1.0f, // Top Right
+    -0.5f,  0.5f, -0.5f,  0.3f, 0.2f, 0.1f,  1.0f, 0.0f, // Bottom Right
+    -0.5f,  0.5f,  0.5f,  0.9f, 0.7f, 0.6f,  0.0f, 0.0f, // Bottom Left
+     0.5f,  0.5f,  0.5f,  0.5f, 0.3f, 0.2f,  0.0f, 1.0f, // Top Left
+
+    // SIXTH FACE (Bottom)
+     0.5f, -0.5f, -0.5f,  0.5f, 0.1f, 0.4f,  1.0f, 1.0f, // Top Right
+    -0.5f, -0.5f, -0.5f,  0.3f, 0.2f, 0.1f,  1.0f, 0.0f, // Bottom Right
+    -0.5f, -0.5f,  0.5f,  0.9f, 0.7f, 0.6f,  0.0f, 0.0f, // Bottom Left
+     0.5f, -0.5f,  0.5f,  0.5f, 0.3f, 0.2f,  0.0f, 1.0f  // Top Left
 };
 
-  unsigned int indices[] = {
-    // FIRST FACE
-      0, 1, 3, // first triangle
-      1, 2, 3,  // second triangle
-    // SECOND FACE
-      1, 2, 4, // third triangle
-      // 0, 4, 5  // second triangle
-  };
+
+unsigned int indices[] = {
+    // FIRST FACE (Front)
+    0, 1, 3, 
+    1, 2, 3, 
+
+    // SECOND FACE (Back)
+    4, 5, 7, 
+    5, 6, 7, 
+
+    // THIRD FACE (Left)
+    8, 9, 11, 
+    9, 10, 11, 
+
+    // FOURTH FACE (Right)
+    12, 13, 15, 
+    13, 14, 15, 
+
+    // FIFTH FACE (Top)
+    16, 17, 19, 
+    17, 18, 19, 
+
+    // SIXTH FACE (Bottom)
+    20, 21, 23, 
+    21, 22, 23  
+};
+
 
   loadTexture("../container.jpg");
 
@@ -202,9 +244,7 @@ float vertices[] = {
 
 void draw(Shader *shader)
 {
-  glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
   glClear(GL_COLOR_BUFFER_BIT);
-
   shader->use();
   
   glm::mat4 transformationMatrix = glm::mat4(1.0f);
@@ -213,9 +253,10 @@ void draw(Shader *shader)
   transformationMatrix = glm::scale(transformationMatrix, glm::vec3(scale, scale, 1.0));
 
   shader->setMat4F("transform", transformationMatrix);
+  glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
 
   glBindVertexArray(vertexArrayObject);
-  glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
+  glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 }
 
 void loadTexture(std::string imagePath){
