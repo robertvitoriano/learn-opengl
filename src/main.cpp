@@ -9,7 +9,10 @@ unsigned int vertexArrayObject;
 float scale = 1.0f;
 float xOffset = 0.0f;
 float yOffset = 0.0f;
-float rotationAngle = 0.0f;
+
+float rotationAngleX = 0.0f;
+float rotationAngleY = 0.0f;
+float rotationAngleZ = 0.0f;
 
 int main(int argc, char *argv[])
 {
@@ -62,7 +65,6 @@ int main(int argc, char *argv[])
   glViewport(0, 0, 800, 600);
   glEnable(GL_DEPTH_TEST);
 
-
   Shader shader("../shaders/vertex_shader.glsl", "../shaders/fragment_shader.glsl");
 
   initializeGraphicsPipeline(&shader);
@@ -112,9 +114,20 @@ int main(int argc, char *argv[])
             scale += 0.1f;
           }
         }
-        else if (event.key.keysym.sym == SDLK_r) {
-          rotationAngle += 10.0f;
+        
+      bool shiftPressed = (event.key.keysym.mod & KMOD_LSHIFT) || (event.key.keysym.mod & KMOD_RSHIFT);
+      
+       if (shiftPressed) {
+        if (event.key.keysym.sym == SDLK_x) {
+            rotationAngleX += 10.0f;
         }
+        if (event.key.keysym.sym == SDLK_y) {
+            rotationAngleY += 10.0f;
+        }
+        if (event.key.keysym.sym == SDLK_z) {
+            rotationAngleZ += 10.0f;
+        }
+    }
       }
     }
     draw(&shader);
@@ -136,71 +149,68 @@ int main(int argc, char *argv[])
 
 void initializeGraphicsPipeline(Shader *shader)
 {
-float vertices[] = {
-    // FIRST FACE (Front)
-     0.5f,  0.5f,  0.5f,  0.5f, 0.1f, 0.4f,  1.0f, 1.0f, // Top Right
-     0.5f, -0.5f,  0.5f,  0.3f, 0.2f, 0.1f,  1.0f, 0.0f, // Bottom Right
-    -0.5f, -0.5f,  0.5f,  0.9f, 0.7f, 0.6f,  0.0f, 0.0f, // Bottom Left
-    -0.5f,  0.5f,  0.5f,  0.5f, 0.3f, 0.2f,  0.0f, 1.0f, // Top Left
+  float vertices[] = {
+      // FIRST FACE (Front)
+      0.5f, 0.5f, 0.5f, 0.5f, 0.1f, 0.4f, 1.0f, 1.0f,   // Top Right
+      0.5f, -0.5f, 0.5f, 0.3f, 0.2f, 0.1f, 1.0f, 0.0f,  // Bottom Right
+      -0.5f, -0.5f, 0.5f, 0.9f, 0.7f, 0.6f, 0.0f, 0.0f, // Bottom Left
+      -0.5f, 0.5f, 0.5f, 0.5f, 0.3f, 0.2f, 0.0f, 1.0f,  // Top Left
 
-    // SECOND FACE (Back)
-     0.5f,  0.5f, -0.5f,  0.5f, 0.1f, 0.4f,  1.0f, 1.0f, // Top Right
-     0.5f, -0.5f, -0.5f,  0.3f, 0.2f, 0.1f,  1.0f, 0.0f, // Bottom Right
-    -0.5f, -0.5f, -0.5f,  0.9f, 0.7f, 0.6f,  0.0f, 0.0f, // Bottom Left
-    -0.5f,  0.5f, -0.5f,  0.5f, 0.3f, 0.2f,  0.0f, 1.0f, // Top Left
+      // SECOND FACE (Back)
+      0.5f, 0.5f, -0.5f, 0.5f, 0.1f, 0.4f, 1.0f, 1.0f,   // Top Right
+      0.5f, -0.5f, -0.5f, 0.3f, 0.2f, 0.1f, 1.0f, 0.0f,  // Bottom Right
+      -0.5f, -0.5f, -0.5f, 0.9f, 0.7f, 0.6f, 0.0f, 0.0f, // Bottom Left
+      -0.5f, 0.5f, -0.5f, 0.5f, 0.3f, 0.2f, 0.0f, 1.0f,  // Top Left
 
-    // THIRD FACE (Left)
-    -0.5f,  0.5f, -0.5f,  0.5f, 0.1f, 0.4f,  1.0f, 1.0f, // Top Right
-    -0.5f, -0.5f, -0.5f,  0.3f, 0.2f, 0.1f,  1.0f, 0.0f, // Bottom Right
-    -0.5f, -0.5f,  0.5f,  0.9f, 0.7f, 0.6f,  0.0f, 0.0f, // Bottom Left
-    -0.5f,  0.5f,  0.5f,  0.5f, 0.3f, 0.2f,  0.0f, 1.0f, // Top Left
+      // THIRD FACE (Left)
+      -0.5f, 0.5f, -0.5f, 0.5f, 0.1f, 0.4f, 1.0f, 1.0f,  // Top Right
+      -0.5f, -0.5f, -0.5f, 0.3f, 0.2f, 0.1f, 1.0f, 0.0f, // Bottom Right
+      -0.5f, -0.5f, 0.5f, 0.9f, 0.7f, 0.6f, 0.0f, 0.0f,  // Bottom Left
+      -0.5f, 0.5f, 0.5f, 0.5f, 0.3f, 0.2f, 0.0f, 1.0f,   // Top Left
 
-    // FOURTH FACE (Right)
-     0.5f,  0.5f,  0.5f,  0.5f, 0.1f, 0.4f,  1.0f, 1.0f, // Top Right
-     0.5f, -0.5f,  0.5f,  0.3f, 0.2f, 0.1f,  1.0f, 0.0f, // Bottom Right
-     0.5f, -0.5f, -0.5f,  0.9f, 0.7f, 0.6f,  0.0f, 0.0f, // Bottom Left
-     0.5f,  0.5f, -0.5f,  0.5f, 0.3f, 0.2f,  0.0f, 1.0f, // Top Left
+      // FOURTH FACE (Right)
+      0.5f, 0.5f, 0.5f, 0.5f, 0.1f, 0.4f, 1.0f, 1.0f,   // Top Right
+      0.5f, -0.5f, 0.5f, 0.3f, 0.2f, 0.1f, 1.0f, 0.0f,  // Bottom Right
+      0.5f, -0.5f, -0.5f, 0.9f, 0.7f, 0.6f, 0.0f, 0.0f, // Bottom Left
+      0.5f, 0.5f, -0.5f, 0.5f, 0.3f, 0.2f, 0.0f, 1.0f,  // Top Left
 
-    // FIFTH FACE (Top)
-     0.5f,  0.5f, -0.5f,  0.5f, 0.1f, 0.4f,  1.0f, 1.0f, // Top Right
-    -0.5f,  0.5f, -0.5f,  0.3f, 0.2f, 0.1f,  1.0f, 0.0f, // Bottom Right
-    -0.5f,  0.5f,  0.5f,  0.9f, 0.7f, 0.6f,  0.0f, 0.0f, // Bottom Left
-     0.5f,  0.5f,  0.5f,  0.5f, 0.3f, 0.2f,  0.0f, 1.0f, // Top Left
+      // FIFTH FACE (Top)
+      0.5f, 0.5f, -0.5f, 0.5f, 0.1f, 0.4f, 1.0f, 1.0f,  // Top Right
+      -0.5f, 0.5f, -0.5f, 0.3f, 0.2f, 0.1f, 1.0f, 0.0f, // Bottom Right
+      -0.5f, 0.5f, 0.5f, 0.9f, 0.7f, 0.6f, 0.0f, 0.0f,  // Bottom Left
+      0.5f, 0.5f, 0.5f, 0.5f, 0.3f, 0.2f, 0.0f, 1.0f,   // Top Left
 
-    // SIXTH FACE (Bottom)
-     0.5f, -0.5f, -0.5f,  0.5f, 0.1f, 0.4f,  1.0f, 1.0f, // Top Right
-    -0.5f, -0.5f, -0.5f,  0.3f, 0.2f, 0.1f,  1.0f, 0.0f, // Bottom Right
-    -0.5f, -0.5f,  0.5f,  0.9f, 0.7f, 0.6f,  0.0f, 0.0f, // Bottom Left
-     0.5f, -0.5f,  0.5f,  0.5f, 0.3f, 0.2f,  0.0f, 1.0f  // Top Left
-};
+      // SIXTH FACE (Bottom)
+      0.5f, -0.5f, -0.5f, 0.5f, 0.1f, 0.4f, 1.0f, 1.0f,  // Top Right
+      -0.5f, -0.5f, -0.5f, 0.3f, 0.2f, 0.1f, 1.0f, 0.0f, // Bottom Right
+      -0.5f, -0.5f, 0.5f, 0.9f, 0.7f, 0.6f, 0.0f, 0.0f,  // Bottom Left
+      0.5f, -0.5f, 0.5f, 0.5f, 0.3f, 0.2f, 0.0f, 1.0f    // Top Left
+  };
 
+  unsigned int indices[] = {
+      // FIRST FACE (Front)
+      0, 1, 3,
+      1, 2, 3,
 
-unsigned int indices[] = {
-    // FIRST FACE (Front)
-    0, 1, 3, 
-    1, 2, 3, 
+      // SECOND FACE (Back)
+      4, 5, 7,
+      5, 6, 7,
 
-    // SECOND FACE (Back)
-    4, 5, 7, 
-    5, 6, 7, 
+      // THIRD FACE (Left)
+      8, 9, 11,
+      9, 10, 11,
 
-    // THIRD FACE (Left)
-    8, 9, 11, 
-    9, 10, 11, 
+      // FOURTH FACE (Right)
+      12, 13, 15,
+      13, 14, 15,
 
-    // FOURTH FACE (Right)
-    12, 13, 15, 
-    13, 14, 15, 
+      // FIFTH FACE (Top)
+      16, 17, 19,
+      17, 18, 19,
 
-    // FIFTH FACE (Top)
-    16, 17, 19, 
-    17, 18, 19, 
-
-    // SIXTH FACE (Bottom)
-    20, 21, 23, 
-    21, 22, 23  
-};
-
+      // SIXTH FACE (Bottom)
+      20, 21, 23,
+      21, 22, 23};
 
   loadTexture("../container.jpg");
 
@@ -216,42 +226,45 @@ unsigned int indices[] = {
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferObject);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-  
+
   int vertexStride = 8;
-  
+
   int positionAttributeIndex = 0;
   int positionAtribbuteLength = 3;
   int positionAttributeOffset = 0;
-  
-  glVertexAttribPointer(positionAttributeIndex, positionAtribbuteLength, GL_FLOAT, GL_FALSE, vertexStride * sizeof(float), (void*)positionAttributeOffset);
+
+  glVertexAttribPointer(positionAttributeIndex, positionAtribbuteLength, GL_FLOAT, GL_FALSE, vertexStride * sizeof(float), (void *)positionAttributeOffset);
   glEnableVertexAttribArray(positionAttributeIndex);
 
   int colorAttributeIndex = 1;
   int colorAtribbuteLength = 3;
   int colorAttributeOffset = 3;
 
-  glVertexAttribPointer(colorAttributeIndex, colorAtribbuteLength, GL_FLOAT, GL_FALSE, vertexStride * sizeof(float), (void*)(colorAttributeOffset * sizeof(float)));
+  glVertexAttribPointer(colorAttributeIndex, colorAtribbuteLength, GL_FLOAT, GL_FALSE, vertexStride * sizeof(float), (void *)(colorAttributeOffset * sizeof(float)));
   glEnableVertexAttribArray(colorAttributeIndex);
-  
+
   int textureAttributeIndex = 2;
   int textureAtribbuteLength = 2;
   int textureAttributeOffset = 6;
 
-  glVertexAttribPointer(textureAttributeIndex, textureAtribbuteLength, GL_FLOAT, GL_FALSE, vertexStride * sizeof(float), (void*)(textureAttributeOffset * sizeof(float)));
+  glVertexAttribPointer(textureAttributeIndex, textureAtribbuteLength, GL_FLOAT, GL_FALSE, vertexStride * sizeof(float), (void *)(textureAttributeOffset * sizeof(float)));
   glEnableVertexAttribArray(textureAttributeIndex);
 
   glBindVertexArray(0);
-
 }
 
 void draw(Shader *shader)
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   shader->use();
-  
+
   glm::mat4 transformationMatrix = glm::mat4(1.0f);
   transformationMatrix = glm::translate(transformationMatrix, glm::vec3(xOffset, yOffset, 0.0f));
-  transformationMatrix = glm::rotate(transformationMatrix, glm::radians(rotationAngle), glm::vec3(1.0, 0.0, 0.0));
+
+  transformationMatrix = glm::rotate(transformationMatrix, glm::radians(rotationAngleX), glm::vec3(1.0, 0.0, 0.0));
+  transformationMatrix = glm::rotate(transformationMatrix, glm::radians(rotationAngleY), glm::vec3(0.0, 1.0, 0.0));
+  transformationMatrix = glm::rotate(transformationMatrix, glm::radians(rotationAngleZ), glm::vec3(1.0, 0.0, 1.0));
+  
   transformationMatrix = glm::scale(transformationMatrix, glm::vec3(scale, scale, scale));
 
   shader->setMat4F("transform", transformationMatrix);
@@ -261,10 +274,11 @@ void draw(Shader *shader)
   glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 }
 
-void loadTexture(std::string imagePath){
-  
+void loadTexture(std::string imagePath)
+{
+
   unsigned int texture;
-  
+
   glGenTextures(1, &texture);
   glBindTexture(GL_TEXTURE_2D, texture);
 
@@ -286,7 +300,6 @@ void loadTexture(std::string imagePath){
     std::cout << "Failed to load texture" << std::endl;
   }
   stbi_image_free(data);
-  
-  glBindTexture(GL_TEXTURE_2D, texture);
 
+  glBindTexture(GL_TEXTURE_2D, texture);
 }
