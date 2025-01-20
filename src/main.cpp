@@ -6,7 +6,7 @@ GLfloat colorB = 0.0f;
 
 unsigned int vertexArrayObject;
 
-float scale = 1.0f;
+float scale = 0.5f;
 float xOffset = 0.0f;
 float yOffset = 0.0f;
 
@@ -248,24 +248,36 @@ void initializeGraphicsPipeline(Shader *shader)
 
 void draw(Shader *shader)
 {
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  shader->use();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    shader->use();
 
-  glm::mat4 transformationMatrix = glm::mat4(1.0f);
-  transformationMatrix = glm::translate(transformationMatrix, glm::vec3(xOffset, yOffset, 0.0f));
+    // First Cube
+    glm::mat4 transformationMatrix1 = glm::mat4(1.0f);
+    transformationMatrix1 = glm::translate(transformationMatrix1, glm::vec3(-0.5f + xOffset, yOffset, 0.0f)); // Adjust position
+    transformationMatrix1 = glm::rotate(transformationMatrix1, glm::radians(rotationAngleX), glm::vec3(1.0f, 0.0f, 0.0f));
+    transformationMatrix1 = glm::rotate(transformationMatrix1, glm::radians(rotationAngleY), glm::vec3(0.0f, 1.0f, 0.0f));
+    transformationMatrix1 = glm::rotate(transformationMatrix1, glm::radians(rotationAngleZ), glm::vec3(0.0f, 0.0f, 1.0f));
+    transformationMatrix1 = glm::scale(transformationMatrix1, glm::vec3(scale, scale, scale));
+    shader->setMat4F("transform", transformationMatrix1);
 
-  transformationMatrix = glm::rotate(transformationMatrix, glm::radians(rotationAngleX), glm::vec3(1.0, 0.0, 0.0));
-  transformationMatrix = glm::rotate(transformationMatrix, glm::radians(rotationAngleY), glm::vec3(0.0, 1.0, 0.0));
-  transformationMatrix = glm::rotate(transformationMatrix, glm::radians(rotationAngleZ), glm::vec3(1.0, 0.0, 1.0));
-  
-  transformationMatrix = glm::scale(transformationMatrix, glm::vec3(scale, scale, scale));
+    glBindVertexArray(vertexArrayObject);
+    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 
-  shader->setMat4F("transform", transformationMatrix);
-  glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
+    // Second Cube
+    glm::mat4 transformationMatrix2 = glm::mat4(1.0f);
+    transformationMatrix2 = glm::translate(transformationMatrix2, glm::vec3(0.5f + xOffset, yOffset, 0.0f)); // Adjust position
+    transformationMatrix2 = glm::rotate(transformationMatrix2, glm::radians(rotationAngleX), glm::vec3(1.0f, 0.0f, 0.0f));
+    transformationMatrix2 = glm::rotate(transformationMatrix2, glm::radians(rotationAngleY), glm::vec3(0.0f, 1.0f, 0.0f));
+    transformationMatrix2 = glm::rotate(transformationMatrix2, glm::radians(rotationAngleZ), glm::vec3(0.0f, 0.0f, 1.0f));
+    transformationMatrix2 = glm::scale(transformationMatrix2, glm::vec3(scale, scale, scale));
+    shader->setMat4F("transform", transformationMatrix2);
 
-  glBindVertexArray(vertexArrayObject);
-  glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+    glBindVertexArray(vertexArrayObject);
+    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+
+    glBindVertexArray(0);
 }
+
 
 void loadTexture(std::string imagePath)
 {
