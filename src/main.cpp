@@ -151,40 +151,40 @@ void initializeGraphicsPipeline(Shader *shader)
 {
   float vertices[] = {
       // FIRST FACE (Front)
-      0.5f, 0.5f, 0.5f, 0.5f, 0.1f, 0.4f, 1.0f, 1.0f,   // Top Right
-      0.5f, -0.5f, 0.5f, 0.3f, 0.2f, 0.1f, 1.0f, 0.0f,  // Bottom Right
-      -0.5f, -0.5f, 0.5f, 0.9f, 0.7f, 0.6f, 0.0f, 0.0f, // Bottom Left
-      -0.5f, 0.5f, 0.5f, 0.5f, 0.3f, 0.2f, 0.0f, 1.0f,  // Top Left
+      0.5f, 0.5f, 0.5f,  1.0f, 1.0f,   // Top Right
+      0.5f, -0.5f, 0.5f,  1.0f, 0.0f,  // Bottom Right
+      -0.5f, -0.5f, 0.5f,  0.0f, 0.0f, // Bottom Left
+      -0.5f, 0.5f, 0.5f,  0.0f, 1.0f,  // Top Left
 
       // SECOND FACE (Back)
-      0.5f, 0.5f, -0.5f, 0.5f, 0.1f, 0.4f, 1.0f, 1.0f,   // Top Right
-      0.5f, -0.5f, -0.5f, 0.3f, 0.2f, 0.1f, 1.0f, 0.0f,  // Bottom Right
-      -0.5f, -0.5f, -0.5f, 0.9f, 0.7f, 0.6f, 0.0f, 0.0f, // Bottom Left
-      -0.5f, 0.5f, -0.5f, 0.5f, 0.3f, 0.2f, 0.0f, 1.0f,  // Top Left
+      0.5f, 0.5f, -0.5f,  1.0f, 1.0f,   // Top Right
+      0.5f, -0.5f, -0.5f,  1.0f, 0.0f,  // Bottom Right
+      -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // Bottom Left
+      -0.5f, 0.5f, -0.5f,  0.0f, 1.0f,  // Top Left
 
       // THIRD FACE (Left)
-      -0.5f, 0.5f, -0.5f, 0.5f, 0.1f, 0.4f, 1.0f, 1.0f,  // Top Right
-      -0.5f, -0.5f, -0.5f, 0.3f, 0.2f, 0.1f, 1.0f, 0.0f, // Bottom Right
-      -0.5f, -0.5f, 0.5f, 0.9f, 0.7f, 0.6f, 0.0f, 0.0f,  // Bottom Left
-      -0.5f, 0.5f, 0.5f, 0.5f, 0.3f, 0.2f, 0.0f, 1.0f,   // Top Left
+      -0.5f, 0.5f, -0.5f,  1.0f, 1.0f,  // Top Right
+      -0.5f, -0.5f, -0.5f,  1.0f, 0.0f, // Bottom Right
+      -0.5f, -0.5f, 0.5f,  0.0f, 0.0f,  // Bottom Left
+      -0.5f, 0.5f, 0.5f,  0.0f, 1.0f,   // Top Left
 
       // FOURTH FACE (Right)
-      0.5f, 0.5f, 0.5f, 0.5f, 0.1f, 0.4f, 1.0f, 1.0f,   // Top Right
-      0.5f, -0.5f, 0.5f, 0.3f, 0.2f, 0.1f, 1.0f, 0.0f,  // Bottom Right
-      0.5f, -0.5f, -0.5f, 0.9f, 0.7f, 0.6f, 0.0f, 0.0f, // Bottom Left
-      0.5f, 0.5f, -0.5f, 0.5f, 0.3f, 0.2f, 0.0f, 1.0f,  // Top Left
+      0.5f, 0.5f, 0.5f,  1.0f, 1.0f,   // Top Right
+      0.5f, -0.5f, 0.5f,  1.0f, 0.0f,  // Bottom Right
+      0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // Bottom Left
+      0.5f, 0.5f, -0.5f,  0.0f, 1.0f,  // Top Left
 
       // FIFTH FACE (Top)
-      0.5f, 0.5f, -0.5f, 0.5f, 0.1f, 0.4f, 1.0f, 1.0f,  // Top Right
-      -0.5f, 0.5f, -0.5f, 0.3f, 0.2f, 0.1f, 1.0f, 0.0f, // Bottom Right
-      -0.5f, 0.5f, 0.5f, 0.9f, 0.7f, 0.6f, 0.0f, 0.0f,  // Bottom Left
-      0.5f, 0.5f, 0.5f, 0.5f, 0.3f, 0.2f, 0.0f, 1.0f,   // Top Left
+      0.5f, 0.5f, -0.5f,  1.0f, 1.0f,  // Top Right
+      -0.5f, 0.5f, -0.5f,  1.0f, 0.0f, // Bottom Right
+      -0.5f, 0.5f, 0.5f,  0.0f, 0.0f,  // Bottom Left
+      0.5f, 0.5f, 0.5f,  0.0f, 1.0f,   // Top Left
 
       // SIXTH FACE (Bottom)
-      0.5f, -0.5f, -0.5f, 0.5f, 0.1f, 0.4f, 1.0f, 1.0f,  // Top Right
-      -0.5f, -0.5f, -0.5f, 0.3f, 0.2f, 0.1f, 1.0f, 0.0f, // Bottom Right
-      -0.5f, -0.5f, 0.5f, 0.9f, 0.7f, 0.6f, 0.0f, 0.0f,  // Bottom Left
-      0.5f, -0.5f, 0.5f, 0.5f, 0.3f, 0.2f, 0.0f, 1.0f    // Top Left
+      0.5f, -0.5f, -0.5f,  1.0f, 1.0f,  // Top Right
+      -0.5f, -0.5f, -0.5f,  1.0f, 0.0f, // Bottom Right
+      -0.5f, -0.5f, 0.5f,  0.0f, 0.0f,  // Bottom Left
+      0.5f, -0.5f, 0.5f,  0.0f, 1.0f    // Top Left
   };
 
   unsigned int indices[] = {
@@ -227,7 +227,7 @@ void initializeGraphicsPipeline(Shader *shader)
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferObject);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-  int vertexStride = 8;
+  int vertexStride = 5;
 
   int positionAttributeIndex = 0;
   int positionAtribbuteLength = 3;
@@ -236,16 +236,9 @@ void initializeGraphicsPipeline(Shader *shader)
   glVertexAttribPointer(positionAttributeIndex, positionAtribbuteLength, GL_FLOAT, GL_FALSE, vertexStride * sizeof(float), (void *)positionAttributeOffset);
   glEnableVertexAttribArray(positionAttributeIndex);
 
-  int colorAttributeIndex = 1;
-  int colorAtribbuteLength = 3;
-  int colorAttributeOffset = 3;
-
-  glVertexAttribPointer(colorAttributeIndex, colorAtribbuteLength, GL_FLOAT, GL_FALSE, vertexStride * sizeof(float), (void *)(colorAttributeOffset * sizeof(float)));
-  glEnableVertexAttribArray(colorAttributeIndex);
-
-  int textureAttributeIndex = 2;
+  int textureAttributeIndex = 1;
   int textureAtribbuteLength = 2;
-  int textureAttributeOffset = 6;
+  int textureAttributeOffset = 3;
 
   glVertexAttribPointer(textureAttributeIndex, textureAtribbuteLength, GL_FLOAT, GL_FALSE, vertexStride * sizeof(float), (void *)(textureAttributeOffset * sizeof(float)));
   glEnableVertexAttribArray(textureAttributeIndex);
