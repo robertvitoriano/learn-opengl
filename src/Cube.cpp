@@ -165,7 +165,6 @@ void Cube::initializeGraphicsPipeline()
 
 void Cube::draw()
 {
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   this->currentShader->use();
 
   this->transformationMatrix = glm::scale(this->transformationMatrix, glm::vec3(this->scale, this->scale, this->scale));
