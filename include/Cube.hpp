@@ -1,8 +1,10 @@
 #ifndef CUBE_HPP
 #define CUBE_HPP
 
+#include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <string>
 #include <stb_image.h>
 #include "Shader.hpp"

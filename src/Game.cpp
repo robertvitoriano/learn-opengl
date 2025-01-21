@@ -98,7 +98,7 @@ void Game::createWindow(){
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
   SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
   this->window = SDL_CreateWindow(
-      "OpenGL Window",
+      "Game engine",
       SDL_WINDOWPOS_CENTERED,
       SDL_WINDOWPOS_CENTERED,
       800, 600,
