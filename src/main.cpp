@@ -25,6 +25,8 @@ int main(int argc, char *argv[])
 
   Shader shader("../shaders/vertex_shader.glsl", "../shaders/fragment_shader.glsl");
 
+  // Cube cube(&shader);
+  
   initializeGraphicsPipeline();
 
   bool running = true;

@@ -12,7 +12,6 @@
 class Cube {
 public:
     Cube(Shader* shader);
-    void draw();
     void setColor(float r, float g, float b);
     void setScale(float newScale);
     void setXOffset(float offset);
@@ -36,8 +35,7 @@ private:
 
     void initializeGraphicsPipeline();
     void loadTexture(std::string imagePath);
-
-    // Helper function to convert mat4 to string
+    void draw(Shader *shader);
     std::string mat4ToString(const glm::mat4& matrix) const;
 };
 

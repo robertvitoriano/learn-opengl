@@ -5,7 +5,6 @@
 #include <stb_image.h>
 #include <Cube.hpp>
 
-
 Cube::Cube(Shader *shader)
     : transformationMatrix(glm::mat4(1.0f)),
       colorR(0.0f), colorG(0.0f), colorB(0.0f),
@@ -13,47 +12,47 @@ Cube::Cube(Shader *shader)
       rotationAngleX(0.0f), rotationAngleY(0.0f), rotationAngleZ(0.0f),
       currentShader(shader)
 {
-  initializeGraphicsPipeline();
+  this->initializeGraphicsPipeline();
 }
 
 void Cube::initializeGraphicsPipeline()
 {
   float vertices[] = {
       // FIRST FACE (Front)
-      0.5f, 0.5f, 0.5f, 0.5f, 0.1f, 0.4f, 1.0f, 1.0f,   // Top Right
-      0.5f, -0.5f, 0.5f, 0.3f, 0.2f, 0.1f, 1.0f, 0.0f,  // Bottom Right
-      -0.5f, -0.5f, 0.5f, 0.9f, 0.7f, 0.6f, 0.0f, 0.0f, // Bottom Left
-      -0.5f, 0.5f, 0.5f, 0.5f, 0.3f, 0.2f, 0.0f, 1.0f,  // Top Left
+      0.5f, 0.5f, 0.5f,    1.0f, 1.0f,   // Top Right
+      0.5f, -0.5f, 0.5f,   1.0f, 0.0f,  // Bottom Right
+      -0.5f, -0.5f, 0.5f,  0.0f, 0.0f, // Bottom Left
+      -0.5f, 0.5f, 0.5f,   0.0f, 1.0f,  // Top Left
 
       // SECOND FACE (Back)
-      0.5f, 0.5f, -0.5f, 0.5f, 0.1f, 0.4f, 1.0f, 1.0f,   // Top Right
-      0.5f, -0.5f, -0.5f, 0.3f, 0.2f, 0.1f, 1.0f, 0.0f,  // Bottom Right
-      -0.5f, -0.5f, -0.5f, 0.9f, 0.7f, 0.6f, 0.0f, 0.0f, // Bottom Left
-      -0.5f, 0.5f, -0.5f, 0.5f, 0.3f, 0.2f, 0.0f, 1.0f,  // Top Left
+      0.5f, 0.5f, -0.5f,    1.0f, 1.0f,   // Top Right
+      0.5f, -0.5f, -0.5f,   1.0f, 0.0f,  // Bottom Right
+      -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // Bottom Left
+      -0.5f, 0.5f, -0.5f,   0.0f, 1.0f,  // Top Left
 
       // THIRD FACE (Left)
-      -0.5f, 0.5f, -0.5f, 0.5f, 0.1f, 0.4f, 1.0f, 1.0f,  // Top Right
-      -0.5f, -0.5f, -0.5f, 0.3f, 0.2f, 0.1f, 1.0f, 0.0f, // Bottom Right
-      -0.5f, -0.5f, 0.5f, 0.9f, 0.7f, 0.6f, 0.0f, 0.0f,  // Bottom Left
-      -0.5f, 0.5f, 0.5f, 0.5f, 0.3f, 0.2f, 0.0f, 1.0f,   // Top Left
+      -0.5f, 0.5f, -0.5f,  1.0f, 1.0f,  // Top Right
+      -0.5f, -0.5f, -0.5f, 1.0f, 0.0f, // Bottom Right
+      -0.5f, -0.5f, 0.5f,  0.0f, 0.0f,  // Bottom Left
+      -0.5f, 0.5f, 0.5f,   0.0f, 1.0f,   // Top Left
 
       // FOURTH FACE (Right)
-      0.5f, 0.5f, 0.5f, 0.5f, 0.1f, 0.4f, 1.0f, 1.0f,   // Top Right
-      0.5f, -0.5f, 0.5f, 0.3f, 0.2f, 0.1f, 1.0f, 0.0f,  // Bottom Right
-      0.5f, -0.5f, -0.5f, 0.9f, 0.7f, 0.6f, 0.0f, 0.0f, // Bottom Left
-      0.5f, 0.5f, -0.5f, 0.5f, 0.3f, 0.2f, 0.0f, 1.0f,  // Top Left
+      0.5f, 0.5f, 0.5f,    1.0f, 1.0f,   // Top Right
+      0.5f, -0.5f, 0.5f,   1.0f, 0.0f,  // Bottom Right
+      0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // Bottom Left
+      0.5f, 0.5f, -0.5f,   0.0f, 1.0f,  // Top Left
 
       // FIFTH FACE (Top)
-      0.5f, 0.5f, -0.5f, 0.5f, 0.1f, 0.4f, 1.0f, 1.0f,  // Top Right
-      -0.5f, 0.5f, -0.5f, 0.3f, 0.2f, 0.1f, 1.0f, 0.0f, // Bottom Right
-      -0.5f, 0.5f, 0.5f, 0.9f, 0.7f, 0.6f, 0.0f, 0.0f,  // Bottom Left
-      0.5f, 0.5f, 0.5f, 0.5f, 0.3f, 0.2f, 0.0f, 1.0f,   // Top Left
+      0.5f, 0.5f, -0.5f,  1.0f, 1.0f,  // Top Right
+      -0.5f, 0.5f, -0.5f, 1.0f, 0.0f, // Bottom Right
+      -0.5f, 0.5f, 0.5f,  0.0f, 0.0f,  // Bottom Left
+      0.5f, 0.5f, 0.5f,   0.0f, 1.0f,   // Top Left
 
       // SIXTH FACE (Bottom)
-      0.5f, -0.5f, -0.5f, 0.5f, 0.1f, 0.4f, 1.0f, 1.0f,  // Top Right
-      -0.5f, -0.5f, -0.5f, 0.3f, 0.2f, 0.1f, 1.0f, 0.0f, // Bottom Right
-      -0.5f, -0.5f, 0.5f, 0.9f, 0.7f, 0.6f, 0.0f, 0.0f,  // Bottom Left
-      0.5f, -0.5f, 0.5f, 0.5f, 0.3f, 0.2f, 0.0f, 1.0f    // Top Left
+      0.5f, -0.5f, -0.5f,  1.0f, 1.0f,  // Top Right
+      -0.5f, -0.5f, -0.5f, 1.0f, 0.0f, // Bottom Right
+      -0.5f, -0.5f, 0.5f,  0.0f, 0.0f,  // Bottom Left
+      0.5f, -0.5f, 0.5f,   0.0f, 1.0f    // Top Left
   };
 
   unsigned int indices[] = {
@@ -79,14 +78,17 @@ void Cube::initializeGraphicsPipeline()
 
       // SIXTH FACE (Bottom)
       20, 21, 23,
-      21, 22, 23
-      };
+      21, 22, 23};
 
+  this->loadTexture("../container.jpg");
+
+  unsigned int vertexBufferObject, elementBufferObject;
   glGenVertexArrays(1, &vertexArrayObject);
   glGenBuffers(1, &vertexBufferObject);
   glGenBuffers(1, &elementBufferObject);
 
   glBindVertexArray(vertexArrayObject);
+
   glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
@@ -94,26 +96,40 @@ void Cube::initializeGraphicsPipeline()
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
   int vertexStride = 5;
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexStride * sizeof(float), (void *)0);
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, vertexStride * sizeof(float), (void *)(3 * sizeof(float)));
-  glEnableVertexAttribArray(1);
+
+  int positionAttributeIndex = 0;
+  int positionAtribbuteLength = 3;
+  int positionAttributeOffset = 0;
+
+  glVertexAttribPointer(positionAttributeIndex, positionAtribbuteLength, GL_FLOAT, GL_FALSE, vertexStride * sizeof(float), (void *)positionAttributeOffset);
+  glEnableVertexAttribArray(positionAttributeIndex);
+
+  int textureAttributeIndex = 1;
+  int textureAtribbuteLength = 2;
+  int textureAttributeOffset = 3;
+
+  glVertexAttribPointer(textureAttributeIndex, textureAtribbuteLength, GL_FLOAT, GL_FALSE, vertexStride * sizeof(float), (void *)(textureAttributeOffset * sizeof(float)));
+  glEnableVertexAttribArray(textureAttributeIndex);
 
   glBindVertexArray(0);
 }
 
-void Cube::draw()
+void Cube::draw(Shader *shader)
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  currentShader->use();
+  shader->use();
+
+  glm::mat4 transformationMatrix = glm::mat4(1.0f);
+  transformationMatrix = glm::translate(transformationMatrix, glm::vec3(xOffset, yOffset, 0.0f));
+
+  transformationMatrix = glm::rotate(transformationMatrix, glm::radians(rotationAngleX), glm::vec3(1.0, 0.0, 0.0));
+  transformationMatrix = glm::rotate(transformationMatrix, glm::radians(rotationAngleY), glm::vec3(0.0, 1.0, 0.0));
+  transformationMatrix = glm::rotate(transformationMatrix, glm::radians(rotationAngleZ), glm::vec3(1.0, 0.0, 1.0));
 
   transformationMatrix = glm::scale(transformationMatrix, glm::vec3(scale, scale, scale));
-  transformationMatrix = glm::rotate(transformationMatrix, glm::radians(rotationAngleX), glm::vec3(1.0f, 0.0f, 0.0f));
-  transformationMatrix = glm::rotate(transformationMatrix, glm::radians(rotationAngleY), glm::vec3(0.0f, 1.0f, 0.0f));
-  transformationMatrix = glm::rotate(transformationMatrix, glm::radians(rotationAngleZ), glm::vec3(0.0f, 0.0f, 1.0f));
-  transformationMatrix = glm::translate(transformationMatrix, glm::vec3(-0.5f + xOffset, yOffset, 0.0f));
 
-  currentShader->setMat4F("transform", transformationMatrix);
+  shader->setMat4F("transform", transformationMatrix);
+  glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
 
   glBindVertexArray(vertexArrayObject);
   glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
@@ -121,15 +137,19 @@ void Cube::draw()
 
 void Cube::loadTexture(std::string imagePath)
 {
+
   unsigned int texture;
+
   glGenTextures(1, &texture);
   glBindTexture(GL_TEXTURE_2D, texture);
+
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
   int width, height, nrChannels;
+
   unsigned char *data = stbi_load(imagePath.c_str(), &width, &height, &nrChannels, 0);
   if (data)
   {
@@ -141,6 +161,8 @@ void Cube::loadTexture(std::string imagePath)
     std::cout << "Failed to load texture" << std::endl;
   }
   stbi_image_free(data);
+
+  glBindTexture(GL_TEXTURE_2D, texture);
 }
 
 std::string Cube::mat4ToString(const glm::mat4 &matrix) const

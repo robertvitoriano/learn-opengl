@@ -10,10 +10,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
+#include <Cube.hpp>
 void initializeGraphicsPipeline();
 void draw(Shader *shader);
-void loadTexture(std::string imagePath);
 SDL_Window *createWindow();
 SDL_GLContext setupOpenGLContext(SDL_Window *window);
+void loadTexture(std::string imagePath);
 #endif
