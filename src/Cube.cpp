@@ -19,13 +19,68 @@ Cube::Cube(Shader *shader)
 void Cube::initializeGraphicsPipeline()
 {
   float vertices[] = {
-      // Define vertices for cube faces with color and texture info
-      // (values omitted for brevity)
+      // FIRST FACE (Front)
+      0.5f, 0.5f, 0.5f, 0.5f, 0.1f, 0.4f, 1.0f, 1.0f,   // Top Right
+      0.5f, -0.5f, 0.5f, 0.3f, 0.2f, 0.1f, 1.0f, 0.0f,  // Bottom Right
+      -0.5f, -0.5f, 0.5f, 0.9f, 0.7f, 0.6f, 0.0f, 0.0f, // Bottom Left
+      -0.5f, 0.5f, 0.5f, 0.5f, 0.3f, 0.2f, 0.0f, 1.0f,  // Top Left
+
+      // SECOND FACE (Back)
+      0.5f, 0.5f, -0.5f, 0.5f, 0.1f, 0.4f, 1.0f, 1.0f,   // Top Right
+      0.5f, -0.5f, -0.5f, 0.3f, 0.2f, 0.1f, 1.0f, 0.0f,  // Bottom Right
+      -0.5f, -0.5f, -0.5f, 0.9f, 0.7f, 0.6f, 0.0f, 0.0f, // Bottom Left
+      -0.5f, 0.5f, -0.5f, 0.5f, 0.3f, 0.2f, 0.0f, 1.0f,  // Top Left
+
+      // THIRD FACE (Left)
+      -0.5f, 0.5f, -0.5f, 0.5f, 0.1f, 0.4f, 1.0f, 1.0f,  // Top Right
+      -0.5f, -0.5f, -0.5f, 0.3f, 0.2f, 0.1f, 1.0f, 0.0f, // Bottom Right
+      -0.5f, -0.5f, 0.5f, 0.9f, 0.7f, 0.6f, 0.0f, 0.0f,  // Bottom Left
+      -0.5f, 0.5f, 0.5f, 0.5f, 0.3f, 0.2f, 0.0f, 1.0f,   // Top Left
+
+      // FOURTH FACE (Right)
+      0.5f, 0.5f, 0.5f, 0.5f, 0.1f, 0.4f, 1.0f, 1.0f,   // Top Right
+      0.5f, -0.5f, 0.5f, 0.3f, 0.2f, 0.1f, 1.0f, 0.0f,  // Bottom Right
+      0.5f, -0.5f, -0.5f, 0.9f, 0.7f, 0.6f, 0.0f, 0.0f, // Bottom Left
+      0.5f, 0.5f, -0.5f, 0.5f, 0.3f, 0.2f, 0.0f, 1.0f,  // Top Left
+
+      // FIFTH FACE (Top)
+      0.5f, 0.5f, -0.5f, 0.5f, 0.1f, 0.4f, 1.0f, 1.0f,  // Top Right
+      -0.5f, 0.5f, -0.5f, 0.3f, 0.2f, 0.1f, 1.0f, 0.0f, // Bottom Right
+      -0.5f, 0.5f, 0.5f, 0.9f, 0.7f, 0.6f, 0.0f, 0.0f,  // Bottom Left
+      0.5f, 0.5f, 0.5f, 0.5f, 0.3f, 0.2f, 0.0f, 1.0f,   // Top Left
+
+      // SIXTH FACE (Bottom)
+      0.5f, -0.5f, -0.5f, 0.5f, 0.1f, 0.4f, 1.0f, 1.0f,  // Top Right
+      -0.5f, -0.5f, -0.5f, 0.3f, 0.2f, 0.1f, 1.0f, 0.0f, // Bottom Right
+      -0.5f, -0.5f, 0.5f, 0.9f, 0.7f, 0.6f, 0.0f, 0.0f,  // Bottom Left
+      0.5f, -0.5f, 0.5f, 0.5f, 0.3f, 0.2f, 0.0f, 1.0f    // Top Left
   };
 
   unsigned int indices[] = {
-      // Indices for cube faces (values omitted for brevity)
-  };
+      // FIRST FACE (Front)
+      0, 1, 3,
+      1, 2, 3,
+
+      // SECOND FACE (Back)
+      4, 5, 7,
+      5, 6, 7,
+
+      // THIRD FACE (Left)
+      8, 9, 11,
+      9, 10, 11,
+
+      // FOURTH FACE (Right)
+      12, 13, 15,
+      13, 14, 15,
+
+      // FIFTH FACE (Top)
+      16, 17, 19,
+      17, 18, 19,
+
+      // SIXTH FACE (Bottom)
+      20, 21, 23,
+      21, 22, 23
+      };
 
   glGenVertexArrays(1, &vertexArrayObject);
   glGenBuffers(1, &vertexBufferObject);

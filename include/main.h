@@ -11,7 +11,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-void initializeGraphicsPipeline(Shader *shader);
+void initializeGraphicsPipeline();
 void draw(Shader *shader);
 void loadTexture(std::string imagePath);
 SDL_Window *createWindow();
