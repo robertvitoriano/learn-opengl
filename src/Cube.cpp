@@ -168,11 +168,12 @@ void Cube::draw()
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   this->currentShader->use();
 
-  this->transformationMatrix = glm::translate(this->transformationMatrix, glm::vec3(-0.5f + this->xOffset, this->yOffset, 0.0f));
+  this->transformationMatrix = glm::scale(this->transformationMatrix, glm::vec3(this->scale, this->scale, this->scale));
   this->transformationMatrix = glm::rotate(this->transformationMatrix, glm::radians(this->rotationAngleX), glm::vec3(1.0f, 0.0f, 0.0f));
   this->transformationMatrix = glm::rotate(this->transformationMatrix, glm::radians(this->rotationAngleY), glm::vec3(0.0f, 1.0f, 0.0f));
   this->transformationMatrix = glm::rotate(this->transformationMatrix, glm::radians(this->rotationAngleZ), glm::vec3(0.0f, 0.0f, 1.0f));
-  this->transformationMatrix = glm::scale(this->transformationMatrix, glm::vec3(this->scale, this->scale, this->scale));
+  this->transformationMatrix = glm::translate(this->transformationMatrix, glm::vec3(-0.5f + this->xOffset, this->yOffset, 0.0f));
+
   this->currentShader->setMat4F("transform", this->transformationMatrix);
 
   glBindVertexArray(this->vertexArrayObject);
