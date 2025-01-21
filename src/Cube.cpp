@@ -62,7 +62,7 @@ void Cube::setRotationAngleZ(float angle) {
 }
 
 void Cube::setTransformationMatrix(const glm::mat4 &matrix) {
-  this->this->transformationMatrix = matrix;
+  this->transformationMatrix = matrix;
 }
 
 void Cube::initializeGraphicsPipeline()

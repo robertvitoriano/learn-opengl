@@ -73,7 +73,7 @@ void Game::loop()
     }
     cube.draw();
 
-    SDL_GL_SwapWindow(window);
+    SDL_GL_SwapWindow(this->window);
 
     if (SDL_GetTicks() + FRAME_UPDATE_TIME >= mainTimer)
     {
