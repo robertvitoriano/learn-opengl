@@ -32,37 +32,37 @@ glm::mat4 Cube::getTransformationMatrix() const { return transformationMatrix; }
 
 // Setters
 void Cube::setColor(float r, float g, float b) {
-  colorR = r;
-  colorG = g;
-  colorB = b;
+  this->colorR = r;
+  this->colorG = g;
+  this->colorB = b;
 }
 
 void Cube::setScale(float newScale) {
-  scale = newScale;
+  this->scale = newScale;
 }
 
 void Cube::setXOffset(float offset) {
-  xOffset = offset;
+  this->xOffset = offset;
 }
 
 void Cube::setYOffset(float offset) {
-  yOffset = offset;
+  this->yOffset = offset;
 }
 
 void Cube::setRotationAngleX(float angle) {
-  rotationAngleX = angle;
+  this->rotationAngleX = angle;
 }
 
 void Cube::setRotationAngleY(float angle) {
-  rotationAngleY = angle;
+  this->rotationAngleY = angle;
 }
 
 void Cube::setRotationAngleZ(float angle) {
-  rotationAngleZ = angle;
+  this->rotationAngleZ = angle;
 }
 
 void Cube::setTransformationMatrix(const glm::mat4 &matrix) {
-  transformationMatrix = matrix;
+  this->this->transformationMatrix = matrix;
 }
 
 void Cube::initializeGraphicsPipeline()
@@ -177,7 +177,6 @@ void Cube::draw()
 
   glBindVertexArray(this->vertexArrayObject);
   glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
-  std::cout << "CUBE SHOULD BE DRAW " << std::endl;
 }
 
 void Cube::loadTexture(std::string imagePath)
