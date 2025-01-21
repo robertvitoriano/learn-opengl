@@ -19,51 +19,9 @@ int main(int argc, char *argv[])
   int FPS = 60;
   Uint32 FRAME_UPDATE_TIME = 1000 / FPS;
   Uint32 mainTimer = 0;
-
-  if (SDL_Init(SDL_INIT_VIDEO) != 0)
-  {
-    std::cerr << "SDL Initialization Error: " << SDL_GetError() << std::endl;
-    return -1;
-  }
-
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-  SDL_Window *window = SDL_CreateWindow(
-      "OpenGL Window",
-      SDL_WINDOWPOS_CENTERED,
-      SDL_WINDOWPOS_CENTERED,
-      800, 600,
-      SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
-
-  if (!window)
-  {
-    std::cerr << "Window Creation Error: " << SDL_GetError() << std::endl;
-    SDL_Quit();
-    return -1;
-  }
-
-  SDL_GLContext glContext = SDL_GL_CreateContext(window);
-  if (!glContext)
-  {
-    std::cerr << "OpenGL Context Creation Error: " << SDL_GetError() << std::endl;
-    SDL_DestroyWindow(window);
-    SDL_Quit();
-    return -1;
-  }
-
-  if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
-  {
-    std::cerr << "Failed to initialize GLAD" << std::endl;
-    SDL_GL_DeleteContext(glContext);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
-    return -1;
-  }
-
-  glViewport(0, 0, 800, 600);
-  glEnable(GL_DEPTH_TEST);
+  
+  SDL_Window * window = createWindow();
+  SDL_GLContext glContext = setupOpenGLContext(window);
 
   Shader shader("../shaders/vertex_shader.glsl", "../shaders/fragment_shader.glsl");
 
@@ -114,20 +72,24 @@ int main(int argc, char *argv[])
             scale += 0.1f;
           }
         }
-        
-      bool shiftPressed = (event.key.keysym.mod & KMOD_LSHIFT) || (event.key.keysym.mod & KMOD_RSHIFT);
-      
-       if (shiftPressed) {
-        if (event.key.keysym.sym == SDLK_x) {
+
+        bool shiftPressed = (event.key.keysym.mod & KMOD_LSHIFT) || (event.key.keysym.mod & KMOD_RSHIFT);
+
+        if (shiftPressed)
+        {
+          if (event.key.keysym.sym == SDLK_x)
+          {
             rotationAngleX += 10.0f;
-        }
-        if (event.key.keysym.sym == SDLK_y) {
+          }
+          if (event.key.keysym.sym == SDLK_y)
+          {
             rotationAngleY += 10.0f;
-        }
-        if (event.key.keysym.sym == SDLK_z) {
+          }
+          if (event.key.keysym.sym == SDLK_z)
+          {
             rotationAngleZ += 10.0f;
+          }
         }
-    }
       }
     }
     draw(&shader);
@@ -264,7 +226,7 @@ void draw(Shader *shader)
   transformationMatrix = glm::rotate(transformationMatrix, glm::radians(rotationAngleX), glm::vec3(1.0, 0.0, 0.0));
   transformationMatrix = glm::rotate(transformationMatrix, glm::radians(rotationAngleY), glm::vec3(0.0, 1.0, 0.0));
   transformationMatrix = glm::rotate(transformationMatrix, glm::radians(rotationAngleZ), glm::vec3(1.0, 0.0, 1.0));
-  
+
   transformationMatrix = glm::scale(transformationMatrix, glm::vec3(scale, scale, scale));
 
   shader->setMat4F("transform", transformationMatrix);
@@ -302,4 +264,56 @@ void loadTexture(std::string imagePath)
   stbi_image_free(data);
 
   glBindTexture(GL_TEXTURE_2D, texture);
+}
+
+SDL_Window *createWindow()
+{
+  if (SDL_Init(SDL_INIT_VIDEO) != 0)
+  {
+    std::cerr << "SDL Initialization Error: " << SDL_GetError() << std::endl;
+
+  }
+
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+  SDL_Window *window = SDL_CreateWindow(
+      "OpenGL Window",
+      SDL_WINDOWPOS_CENTERED,
+      SDL_WINDOWPOS_CENTERED,
+      800, 600,
+      SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+
+  if (!window)
+  {
+    std::cerr << "Window Creation Error: " << SDL_GetError() << std::endl;
+    SDL_Quit();
+
+  }
+
+  return window;
+}
+
+SDL_GLContext setupOpenGLContext(SDL_Window *window){
+    SDL_GLContext glContext = SDL_GL_CreateContext(window);
+  if (!glContext)
+  {
+    std::cerr << "OpenGL Context Creation Error: " << SDL_GetError() << std::endl;
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+
+  }
+
+  if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
+  {
+    std::cerr << "Failed to initialize GLAD" << std::endl;
+    SDL_GL_DeleteContext(glContext);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+  }
+
+  glViewport(0, 0, 800, 600);
+  glEnable(GL_DEPTH_TEST);
+  return glContext;
 }
