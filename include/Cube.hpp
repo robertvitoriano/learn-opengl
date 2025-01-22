@@ -21,8 +21,9 @@ public:
     void setRotationAngleZ(float angle);
     void setTransformationMatrix(const glm::mat4& matrix);
     glm::mat4 getTransformationMatrix() const;
-
+    void draw(Shader *shader);
     void printTransformationMatrix() const;
+    void initializeGraphicsPipeline();
 
 private:
     Shader* currentShader;
@@ -32,10 +33,7 @@ private:
     float colorR, colorG, colorB;
     float scale, xOffset, yOffset;
     float rotationAngleX, rotationAngleY, rotationAngleZ;
-
-    void initializeGraphicsPipeline();
     void loadTexture(std::string imagePath);
-    void draw(Shader *shader);
     std::string mat4ToString(const glm::mat4& matrix) const;
 };
 

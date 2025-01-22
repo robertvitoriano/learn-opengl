@@ -25,9 +25,10 @@ int main(int argc, char *argv[])
 
   Shader shader("../shaders/vertex_shader.glsl", "../shaders/fragment_shader.glsl");
 
-  // Cube cube(&shader);
+  Cube cube(&shader);
+  cube.initializeGraphicsPipeline();
   
-  initializeGraphicsPipeline();
+  // initializeGraphicsPipeline();
 
   bool running = true;
   SDL_Event event;
@@ -94,7 +95,7 @@ int main(int argc, char *argv[])
         }
       }
     }
-    draw(&shader);
+    cube.draw(&shader);
 
     SDL_GL_SwapWindow(window);
 
