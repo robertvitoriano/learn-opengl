@@ -14,47 +14,46 @@ Cube::Cube(Shader *shader, std::string texturePath)
 {
   this->initializeGraphicsPipeline();
   this->loadTexture(texturePath);
-
 }
 
 void Cube::initializeGraphicsPipeline()
 {
   float vertices[] = {
       // FIRST FACE (Front)
-      0.5f, 0.5f, 0.5f,    1.0f, 1.0f,   // Top Right
-      0.5f, -0.5f, 0.5f,   1.0f, 0.0f,  // Bottom Right
-      -0.5f, -0.5f, 0.5f,  0.0f, 0.0f, // Bottom Left
-      -0.5f, 0.5f, 0.5f,   0.0f, 1.0f,  // Top Left
+      0.5f, 0.5f, 0.5f, 1.0f, 1.0f,   // Top Right
+      0.5f, -0.5f, 0.5f, 1.0f, 0.0f,  // Bottom Right
+      -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, // Bottom Left
+      -0.5f, 0.5f, 0.5f, 0.0f, 1.0f,  // Top Left
 
       // SECOND FACE (Back)
-      0.5f, 0.5f, -0.5f,    1.0f, 1.0f,   // Top Right
-      0.5f, -0.5f, -0.5f,   1.0f, 0.0f,  // Bottom Right
-      -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // Bottom Left
-      -0.5f, 0.5f, -0.5f,   0.0f, 1.0f,  // Top Left
+      0.5f, 0.5f, -0.5f, 1.0f, 1.0f,   // Top Right
+      0.5f, -0.5f, -0.5f, 1.0f, 0.0f,  // Bottom Right
+      -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, // Bottom Left
+      -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,  // Top Left
 
       // THIRD FACE (Left)
-      -0.5f, 0.5f, -0.5f,  1.0f, 1.0f,  // Top Right
+      -0.5f, 0.5f, -0.5f, 1.0f, 1.0f,  // Top Right
       -0.5f, -0.5f, -0.5f, 1.0f, 0.0f, // Bottom Right
-      -0.5f, -0.5f, 0.5f,  0.0f, 0.0f,  // Bottom Left
-      -0.5f, 0.5f, 0.5f,   0.0f, 1.0f,   // Top Left
+      -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,  // Bottom Left
+      -0.5f, 0.5f, 0.5f, 0.0f, 1.0f,   // Top Left
 
       // FOURTH FACE (Right)
-      0.5f, 0.5f, 0.5f,    1.0f, 1.0f,   // Top Right
-      0.5f, -0.5f, 0.5f,   1.0f, 0.0f,  // Bottom Right
-      0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // Bottom Left
-      0.5f, 0.5f, -0.5f,   0.0f, 1.0f,  // Top Left
+      0.5f, 0.5f, 0.5f, 1.0f, 1.0f,   // Top Right
+      0.5f, -0.5f, 0.5f, 1.0f, 0.0f,  // Bottom Right
+      0.5f, -0.5f, -0.5f, 0.0f, 0.0f, // Bottom Left
+      0.5f, 0.5f, -0.5f, 0.0f, 1.0f,  // Top Left
 
       // FIFTH FACE (Top)
-      0.5f, 0.5f, -0.5f,  1.0f, 1.0f,  // Top Right
+      0.5f, 0.5f, -0.5f, 1.0f, 1.0f,  // Top Right
       -0.5f, 0.5f, -0.5f, 1.0f, 0.0f, // Bottom Right
-      -0.5f, 0.5f, 0.5f,  0.0f, 0.0f,  // Bottom Left
-      0.5f, 0.5f, 0.5f,   0.0f, 1.0f,   // Top Left
+      -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,  // Bottom Left
+      0.5f, 0.5f, 0.5f, 0.0f, 1.0f,   // Top Left
 
       // SIXTH FACE (Bottom)
-      0.5f, -0.5f, -0.5f,  1.0f, 1.0f,  // Top Right
+      0.5f, -0.5f, -0.5f, 1.0f, 1.0f,  // Top Right
       -0.5f, -0.5f, -0.5f, 1.0f, 0.0f, // Bottom Right
-      -0.5f, -0.5f, 0.5f,  0.0f, 0.0f,  // Bottom Left
-      0.5f, -0.5f, 0.5f,   0.0f, 1.0f    // Top Left
+      -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,  // Bottom Left
+      0.5f, -0.5f, 0.5f, 0.0f, 1.0f    // Top Left
   };
 
   unsigned int indices[] = {
@@ -151,11 +150,22 @@ void Cube::loadTexture(std::string imagePath)
   int width, height, nrChannels;
 
   unsigned char *data = stbi_load(imagePath.c_str(), &width, &height, &nrChannels, 0);
+
   if (data)
   {
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    GLenum format = (nrChannels == 4) ? GL_RGBA : GL_RGB;
+    
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    
+    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
     glGenerateMipmap(GL_TEXTURE_2D);
+    GLenum error = glGetError();
+    if (error != GL_NO_ERROR)
+    {
+      std::cerr << "OpenGL Error: " << error << std::endl;
+    }
   }
+
   else
   {
     std::cout << "Failed to load texture" << std::endl;
@@ -185,7 +195,6 @@ void Cube::printTransformationMatrix() const
   std::cout << mat4ToString(transformationMatrix) << std::endl;
 }
 
-
 void Cube::setScale(float newScale) { scale = newScale; }
 void Cube::setXOffset(float offset) { xOffset = offset; }
 void Cube::setYOffset(float offset) { yOffset = offset; }
@@ -194,30 +203,34 @@ void Cube::setRotationAngleY(float angle) { rotationAngleY = angle; }
 void Cube::setRotationAngleZ(float angle) { rotationAngleZ = angle; }
 void Cube::setTransformationMatrix(const glm::mat4 &matrix) { transformationMatrix = matrix; }
 
-float Cube::getScale() {
-    return scale;
+float Cube::getScale()
+{
+  return scale;
 }
 
-float Cube::getXOffset() {
-    return xOffset;
+float Cube::getXOffset()
+{
+  return xOffset;
 }
 
-float Cube::getYOffset() {
-    return yOffset;
+float Cube::getYOffset()
+{
+  return yOffset;
 }
 
-float Cube::getRotationAngleX() {
-    return rotationAngleX;
+float Cube::getRotationAngleX()
+{
+  return rotationAngleX;
 }
 
-float Cube::getRotationAngleY() {
-    return rotationAngleY;
+float Cube::getRotationAngleY()
+{
+  return rotationAngleY;
 }
 
-float Cube::getRotationAngleZ() {
-    return rotationAngleZ;
+float Cube::getRotationAngleZ()
+{
+  return rotationAngleZ;
 }
 
 glm::mat4 Cube::getTransformationMatrix() const { return transformationMatrix; }
-
-

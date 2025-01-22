@@ -9,7 +9,7 @@ void Game::loop()
   SDL_Window * window = this->createWindow();
   SDL_GLContext glContext = this->setupOpenGLContext(window);
   Shader shader("../shaders/vertex_shader.glsl", "../shaders/fragment_shader.glsl");
-  Cube cube(&shader, "../container.jpg");
+  Cube cube(&shader, "../agua.jpeg");
 
   bool running = true;
   SDL_Event event;
