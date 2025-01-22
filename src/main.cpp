@@ -47,25 +47,28 @@ int main(int argc, char *argv[])
         if (event.key.keysym.sym == SDLK_RIGHT)
         {
           xOffset += 0.1;
+          cube.setXOffset(cube.getXOffset() + 0.1);
         }
         else if (event.key.keysym.sym == SDLK_LEFT)
         {
-          xOffset -= 0.1;
+          cube.setXOffset(cube.getXOffset() - 0.1);
         }
         else if (event.key.keysym.sym == SDLK_UP)
         {
-          yOffset += 0.1;
+          cube.setYOffset(cube.getYOffset() + 0.1);
         }
         else if (event.key.keysym.sym == SDLK_DOWN)
         {
-          yOffset -= 0.1;
+          cube.setXOffset(cube.getXOffset() - 0.1);
         }
         else if (event.key.keysym.sym == SDLK_MINUS)
         {
           std::cout << "MINUS WAS PRESSED" << std::endl;
-          scale -= 0.1f;
-          if (scale < 0.1f)
-            scale = 0.1f;
+          cube.setScale(cube.getScale() - 0.1);
+          
+        if (cube.getScale() < 0.1f)
+            cube.setScale(0.1f);
+            
         }
         else if (event.key.keysym.sym == SDLK_EQUALS)
         {
@@ -82,15 +85,15 @@ int main(int argc, char *argv[])
         {
           if (event.key.keysym.sym == SDLK_x)
           {
-            rotationAngleX += 10.0f;
+            cube.setRotationAngleX(cube.getRotationAngleX() + 10.0f );
           }
           if (event.key.keysym.sym == SDLK_y)
           {
-            rotationAngleY += 10.0f;
+            cube.setRotationAngleY(cube.getRotationAngleY() + 10.0f );
           }
           if (event.key.keysym.sym == SDLK_z)
           {
-            rotationAngleZ += 10.0f;
+            cube.setRotationAngleZ(cube.getRotationAngleZ() + 10.0f );
           }
         }
       }

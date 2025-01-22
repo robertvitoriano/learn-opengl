@@ -184,13 +184,7 @@ void Cube::printTransformationMatrix() const
   std::cout << mat4ToString(transformationMatrix) << std::endl;
 }
 
-// Setters
-void Cube::setColor(float r, float g, float b)
-{
-  colorR = r;
-  colorG = g;
-  colorB = b;
-}
+
 void Cube::setScale(float newScale) { scale = newScale; }
 void Cube::setXOffset(float offset) { xOffset = offset; }
 void Cube::setYOffset(float offset) { yOffset = offset; }
@@ -199,4 +193,30 @@ void Cube::setRotationAngleY(float angle) { rotationAngleY = angle; }
 void Cube::setRotationAngleZ(float angle) { rotationAngleZ = angle; }
 void Cube::setTransformationMatrix(const glm::mat4 &matrix) { transformationMatrix = matrix; }
 
+float Cube::getScale() {
+    return scale;
+}
+
+float Cube::getXOffset() {
+    return xOffset;
+}
+
+float Cube::getYOffset() {
+    return yOffset;
+}
+
+float Cube::getRotationAngleX() {
+    return rotationAngleX;
+}
+
+float Cube::getRotationAngleY() {
+    return rotationAngleY;
+}
+
+float Cube::getRotationAngleZ() {
+    return rotationAngleZ;
+}
+
 glm::mat4 Cube::getTransformationMatrix() const { return transformationMatrix; }
+
+

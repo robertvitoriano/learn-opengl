@@ -12,13 +12,21 @@
 class Cube {
 public:
     Cube(Shader* shader);
-    void setColor(float r, float g, float b);
     void setScale(float newScale);
     void setXOffset(float offset);
     void setYOffset(float offset);
     void setRotationAngleX(float angle);
     void setRotationAngleY(float angle);
     void setRotationAngleZ(float angle);
+    
+    float getColor();
+    float getScale();
+    float getXOffset();
+    float getYOffset();
+    float getRotationAngleX();
+    float getRotationAngleY();
+    float getRotationAngleZ();
+    
     void setTransformationMatrix(const glm::mat4& matrix);
     glm::mat4 getTransformationMatrix() const;
     void draw(Shader *shader);
