@@ -15,6 +15,8 @@ class Game {
   private:
     SDL_Window *createWindow();
     SDL_GLContext setupOpenGLContext(SDL_Window *window);
+    void handleInput(SDL_Event event);
+    Cube *player;
   public:
     void loop();
 };
