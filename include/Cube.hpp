@@ -11,7 +11,7 @@
 
 class Cube {
 public:
-    Cube(Shader* shader);
+    Cube(Shader* shader, std::string texturePath);
     void setScale(float newScale);
     void setXOffset(float offset);
     void setYOffset(float offset);

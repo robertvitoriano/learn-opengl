@@ -5,7 +5,7 @@
 #include <stb_image.h>
 #include <Cube.hpp>
 
-Cube::Cube(Shader *shader)
+Cube::Cube(Shader *shader, std::string texturePath)
     : transformationMatrix(glm::mat4(1.0f)),
       colorR(0.0f), colorG(0.0f), colorB(0.0f),
       scale(1.0f), xOffset(0.0f), yOffset(0.0f),
@@ -13,6 +13,8 @@ Cube::Cube(Shader *shader)
       currentShader(shader)
 {
   this->initializeGraphicsPipeline();
+  this->loadTexture(texturePath);
+
 }
 
 void Cube::initializeGraphicsPipeline()
@@ -79,8 +81,6 @@ void Cube::initializeGraphicsPipeline()
       // SIXTH FACE (Bottom)
       20, 21, 23,
       21, 22, 23};
-
-  this->loadTexture("../container.jpg");
 
   unsigned int vertexBufferObject, elementBufferObject;
   glGenVertexArrays(1, &vertexArrayObject);
