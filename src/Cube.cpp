@@ -128,7 +128,7 @@ void Cube::draw(Shader *shader)
   transformationMatrix = glm::scale(transformationMatrix, glm::vec3(scale, scale, scale));
 
   shader->setMat4F("transform", transformationMatrix);
-  glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
+  glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
   glBindVertexArray(vertexArrayObject);
   glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);

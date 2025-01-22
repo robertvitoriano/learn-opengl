@@ -27,8 +27,6 @@ int main(int argc, char *argv[])
 
   Cube cube(&shader);
   cube.initializeGraphicsPipeline();
-  
-  // initializeGraphicsPipeline();
 
   bool running = true;
   SDL_Event event;
