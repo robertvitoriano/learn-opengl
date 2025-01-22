@@ -7,7 +7,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <stb_image.h>
-#include "shader.h"  
+#include "shader.hpp"  
 
 class Cube {
 public:

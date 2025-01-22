@@ -12,6 +12,7 @@ Cube::Cube(Shader *shader)
       rotationAngleX(0.0f), rotationAngleY(0.0f), rotationAngleZ(0.0f),
       currentShader(shader)
 {
+  this->initializeGraphicsPipeline();
 }
 
 void Cube::initializeGraphicsPipeline()
