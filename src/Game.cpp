@@ -58,7 +58,7 @@ void Game::handleInput(SDL_Event event)
     }
     else if (event.key.keysym.sym == SDLK_DOWN)
     {
-      this->player->setXOffset(this->player->getXOffset() - 0.1);
+      this->player->setYOffset(this->player->getYOffset() - 0.1);
     }
     else if (event.key.keysym.sym == SDLK_MINUS)
     {
