@@ -60,6 +60,22 @@ void Game::handleInput(SDL_Event event)
     {
       this->player->setYOffset(this->player->getYOffset() - 0.1);
     }
+    else if (event.key.keysym.sym == SDLK_d)
+    {
+      this->player->moveCameraRight();
+    }
+    else if (event.key.keysym.sym == SDLK_a)
+    {
+      this->player->moveCameraLeft();
+    }
+    else if (event.key.keysym.sym == SDLK_w)
+    {
+      this->player->moveCameraUp();
+    }
+    else if (event.key.keysym.sym == SDLK_s)
+    {
+      this->player->moveCameraDown();
+    }
     else if (event.key.keysym.sym == SDLK_MINUS)
     {
       this->player->setScale(this->player->getScale() - 0.1);

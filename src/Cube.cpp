@@ -14,6 +14,11 @@ Cube::Cube(Shader *shader, std::string texturePath)
 {
   this->initializeGraphicsPipeline();
   this->loadTexture(texturePath);
+   this->cameraSpeed = 0.05f; // adjust accordingly
+
+  this->cameraPos   = glm::vec3(0.0f, 0.0f,  3.0f);
+  this->cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+  this->cameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
 }
 
 void Cube::initializeGraphicsPipeline()
@@ -118,11 +123,8 @@ void Cube::draw(Shader *shader)
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   shader->use();
 
-  const float radius = 10.0f;
-  float camX = sin(SDL_GetTicks() / 1000.0) * radius;
-  float camZ = cos(SDL_GetTicks() / 1000.0) * radius;
   glm::mat4 view;
-  view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));   
+  view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
   
   glm::mat4 projection;
   projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
@@ -142,6 +144,7 @@ void Cube::draw(Shader *shader)
 
   glBindVertexArray(vertexArrayObject);
   glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+  
 }
 
 void Cube::loadTexture(std::string imagePath)
@@ -224,3 +227,19 @@ float Cube::getRotationAngleZ()
 }
 
 glm::mat4 Cube::getTransformationMatrix() const { return transformationMatrix; }
+
+void Cube::moveCameraUp(){
+  this->cameraPos += this->cameraSpeed * this->cameraFront;
+}
+void Cube::moveCameraDown(){
+  this->cameraPos -= this->cameraSpeed * this->cameraFront;
+}
+
+void Cube::moveCameraLeft(){
+  this->cameraPos -= glm::normalize(glm::cross(this->cameraFront, this->cameraUp)) * this->cameraSpeed;
+}
+
+void Cube::moveCameraRight(){
+  this->cameraPos += glm::normalize(glm::cross(this->cameraFront, this->cameraUp)) * this->cameraSpeed;
+
+}
