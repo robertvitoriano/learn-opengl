@@ -8,7 +8,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <stb_image.h>
 #include "shader.hpp"  
-
+#include <SDL2/SDL.h>
 class Cube {
 public:
     Cube(Shader* shader, std::string texturePath);
