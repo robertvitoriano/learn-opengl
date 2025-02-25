@@ -182,26 +182,6 @@ void Cube::loadTexture(std::string imagePath)
   glBindTexture(GL_TEXTURE_2D, texture);
 }
 
-std::string Cube::mat4ToString(const glm::mat4 &matrix) const
-{
-  std::stringstream ss;
-  for (int i = 0; i < 4; ++i)
-  {
-    ss << "[ ";
-    for (int j = 0; j < 4; ++j)
-    {
-      ss << matrix[i][j] << " ";
-    }
-    ss << "]\n";
-  }
-  return ss.str();
-}
-
-void Cube::printTransformationMatrix() const
-{
-  std::cout << mat4ToString(transformationMatrix) << std::endl;
-}
-
 void Cube::setScale(float newScale) { scale = newScale; }
 void Cube::setXOffset(float offset) { xOffset = offset; }
 void Cube::setYOffset(float offset) { yOffset = offset; }
